@@ -1,0 +1,13 @@
+node_modules
+www
+.tmp
+.sass-cache
+.DS_Store
+app/bower_components
+coverage
+platforms
+plugins
+!plugins/android.json
+!plugins/ios.json
+npm-debug.log
+.idea
