@@ -1,0 +1,54 @@
+<div class="modal">
+
+  <ion-header-bar>
+    <h1 class="title">Detalle de Orden {{ order.id }} </h1>
+  </ion-header-bar>
+
+  <ion-content>
+
+    <div>Orden numero: {{ order.id }}</div>
+    <div>
+      Productos:
+      </br>
+
+      <div data-ng-repeat="product in order.products">
+        <div class="row">
+          <div class="col">{{ product.qty }}</div>
+          <div class="col">{{ product.cat}}</div>
+          <div class="col">{{ product.description }}</div>
+          <div class="col">{{ product.totalPrice }}</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div>
+      Total: {{ order.totalPrice }}
+    </div>
+
+    <div>
+      Contacto:
+      </br>
+
+      {{ order.contact.name }} - {{ order.contact.phone }}
+    </div>
+
+    <div>
+      Metodo de Entrega: {{ order.delivery }}
+      </br>
+
+      <div data-ng-if="order.deliver == 'delivery'">
+        Domicilio: {{ order.contact.address.street }} {{ order.contact.address.door }}
+        </br>
+        {{ order.contact.address.area }}
+      </div>
+
+    </div>
+
+  </ion-content>
+
+  <div class="bar bar-footer bar-balanced">
+    <div class="title" data-ng-click="orderDetails.hide()">Volver a ordenes</div>
+  </div>
+
+</div>
