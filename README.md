@@ -1,3 +1,4 @@
+muzzaStore [![Build Status](https://secure.travis-ci.org/unexpectedprofit-org/muzza-store.png?branch=master)](https://travis-ci.org/unexpectedprofit-org/muzza-store)
 =====
 
 ## Frameworks
