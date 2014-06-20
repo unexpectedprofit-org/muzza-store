@@ -1,0 +1,19 @@
+language: node_js
+node_js:
+  - "0.10"
+before_install:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+before_script:
+  - npm install -g grunt-cli
+  - npm install -g bower
+  - npm install
+  - bower install
+notifications:
+  email:
+    recipients:
+      - santiagoesteva@gmail.com
+      - gonzalo.docarmo@gmail.com
+      - dichoso@gmail.com
+    on_success: never
+    on_failure: always
