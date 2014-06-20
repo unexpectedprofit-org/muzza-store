@@ -371,7 +371,7 @@ module.exports = function (grunt) {
 //        rename: function (moduleName){
 //          return moduleName.replace('../app/templates/', '');
 //        },
-        module: 'Muzza.templates'
+        module: 'MuzzaStore.templates'
       },
       app: {
         src: ['app/templates/*.html', 'app/scripts/**/*.html'],

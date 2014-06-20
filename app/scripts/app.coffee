@@ -1,18 +1,18 @@
-angular.module('Muzza.controllers',[])
+angular.module('MuzzaStore.controllers',[])
 
 
 
-angular.module("Muzza", ['ui.router', 'ionic',
-                         'Muzza.templates',
-                         'Muzza.controllers'])
+angular.module("MuzzaStore", ['ui.router', 'ionic',
+                              'MuzzaStore.templates',
+                              'MuzzaStore.controllers'])
 
-angular.module("Muzza").run ($ionicPlatform, $state) ->
+angular.module("MuzzaStore").run ($ionicPlatform, $state) ->
   $ionicPlatform.ready ->
     StatusBar.styleDefault() if window.StatusBar
     $state.go 'app.menu'
 
 
-angular.module("Muzza").config ($stateProvider, $urlRouterProvider) ->
+angular.module("MuzzaStore").config ($stateProvider, $urlRouterProvider) ->
   $stateProvider.state "app",
     url: "/app"
     abstract: true
@@ -23,6 +23,12 @@ angular.module("Muzza").config ($stateProvider, $urlRouterProvider) ->
     views:
       navContent:
         templateUrl: "../app/templates/menu.html"
+
+  .state "app.orders-list",
+    url: "/orders/list"
+    views:
+      navContent:
+        templateUrl: "../app/templates/orders.html"
 
 
 

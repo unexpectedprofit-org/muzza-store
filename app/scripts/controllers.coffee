@@ -1,3 +1,3 @@
-angular.module("Muzza.controllers", [])
+angular.module("MuzzaStore.controllers", [])
 
-angular.module("Muzza.controllers").controller "MenuCtrl", ($scope) ->
+angular.module("MuzzaStore.controllers").controller "MenuCtrl", ($scope) ->
