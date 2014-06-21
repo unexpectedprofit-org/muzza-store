@@ -142,7 +142,12 @@ angular.module('MuzzaStore.order').service 'OrderService', ($rootScope, ORDER_ST
 
     $rootScope.$broadcast 'ORDER_STATUS_CHANGED'
 
+  closeOrder = (order) ->
+    order.status = ORDER_STATUS.STATUS.CLOSED
+    $rootScope.$broadcast 'ORDER_STATUS_CHANGED'
+
 
   listOrdersByStatus: getOrdersByStatus
   acceptOrder: acceptOrder
   dispatchOrder: dispatchOrder
+  closeOrder: closeOrder

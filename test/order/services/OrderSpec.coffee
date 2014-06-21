@@ -78,7 +78,7 @@ describe 'Order Service', ->
 
       OrderService.dispatchOrder order
 
-      expect(order.status).toBe ORDER_STATUS.STATUS.READY_PICKUP
+      expect(order.status).toBe ORDER_STATUS.STATUS.READY_DELIVERY
 
     it "should broadcast event", ->
       inject ($rootScope) ->
@@ -87,5 +87,37 @@ describe 'Order Service', ->
         order =
           status: ORDER_STATUS.STATUS.IN_PROGRESS
         OrderService.dispatchOrder order
+
+        expect(broadcastSpy).toHaveBeenCalled()
+
+  describe "closeOrder", ->
+
+    it "should change status to CLOSED when pickup", ->
+      order =
+        id: 1
+        delivery: "pickup"
+        status: ORDER_STATUS.STATUS.READY_PICKUP
+
+      OrderService.closeOrder order
+
+      expect(order.status).toBe ORDER_STATUS.STATUS.CLOSED
+
+    it "should change status to READY_DELIVERY when delivery", ->
+      order =
+        id: 1
+        delivery: "delivery"
+        status: ORDER_STATUS.STATUS.DELIVERY
+
+      OrderService.closeOrder order
+
+      expect(order.status).toBe ORDER_STATUS.STATUS.CLOSED
+
+    it "should broadcast event", ->
+      inject ($rootScope) ->
+        broadcastSpy = spyOn($rootScope, '$broadcast')
+
+        order =
+          status: ORDER_STATUS.STATUS.DELIVERY
+        OrderService.closeOrder order
 
         expect(broadcastSpy).toHaveBeenCalled()

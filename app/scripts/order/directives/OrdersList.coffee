@@ -14,7 +14,7 @@ angular.module('MuzzaStore.order').directive 'ordersList', ($ionicModal, OrderSe
       view: true
       ready: $scope.orderStatus is ORDER_STATUS.STATUS.IN_PROGRESS
       delivery: $scope.orderStatus is ORDER_STATUS.STATUS.READY_DELIVERY
-      close: false
+      close: $scope.orderStatus is ORDER_STATUS.STATUS.DELIVERY or $scope.orderStatus is ORDER_STATUS.STATUS.READY_PICKUP
       cancel: false
 
     $scope.takeOrder = (order) ->
@@ -33,3 +33,6 @@ angular.module('MuzzaStore.order').directive 'ordersList', ($ionicModal, OrderSe
 
     $scope.dispatchOrder = (order) ->
       OrderService.dispatchOrder order
+
+    $scope.closeOrder = (order) ->
+      OrderService.closeOrder order

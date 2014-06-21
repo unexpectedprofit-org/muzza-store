@@ -84,6 +84,33 @@ describe "OrdersList", ->
 
           expect(isolatedScope.actionButtons.delivery).toBeTruthy()
 
+    describe "close button", ->
+
+      it "should disable button", ->
+        expect(isolatedScope.actionButtons.close).toBeFalsy()
+
+      it "should enable button - when delivery", ->
+        inject ($compile, $rootScope) ->
+          $scope = $rootScope
+          $scope.statusValue = "DELIVERY"
+          element = angular.element('<orders-list data-ng-model="ordersWithStatus" data-order-status="statusValue"></orders-list>')
+          $compile(element)($rootScope)
+          $scope.$digest()
+          isolatedScope = element.isolateScope()
+
+          expect(isolatedScope.actionButtons.close).toBeTruthy()
+
+      it "should enable button - when pickup", ->
+        inject ($compile, $rootScope) ->
+          $scope = $rootScope
+          $scope.statusValue = "READY_PICKUP"
+          element = angular.element('<orders-list data-ng-model="ordersWithStatus" data-order-status="statusValue"></orders-list>')
+          $compile(element)($rootScope)
+          $scope.$digest()
+          isolatedScope = element.isolateScope()
+
+          expect(isolatedScope.actionButtons.close).toBeTruthy()
+
 
   describe "takeOrder functionality", ->
 
@@ -106,6 +133,17 @@ describe "OrdersList", ->
         isolatedScope.dispatchOrder order
 
         expect(dispatchOrderSpy).toHaveBeenCalledWith order
+
+  describe "close functionality", ->
+
+    it "should call the service", ->
+      inject ($injector) ->
+        OrderService = $injector.get 'OrderService'
+        closeOrderSpy = spyOn(OrderService, 'closeOrder')
+        order = {id:1}
+        isolatedScope.closeOrder order
+
+        expect(closeOrderSpy).toHaveBeenCalledWith order
 
   describe "viewOrder functionality", ->
 
