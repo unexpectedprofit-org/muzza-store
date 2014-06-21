@@ -145,6 +145,18 @@ describe "OrdersList", ->
 
         expect(closeOrderSpy).toHaveBeenCalledWith order
 
+  describe "deliver functionality", ->
+
+    it "should call the service", ->
+      inject ($injector) ->
+        OrderService = $injector.get 'OrderService'
+        deliverOrderSpy = spyOn(OrderService, 'deliverOrder')
+        order = {id:1}
+        isolatedScope.deliverOrder order
+
+        expect(deliverOrderSpy).toHaveBeenCalledWith order
+
+
   describe "viewOrder functionality", ->
 
     it "should set order in scope", ->

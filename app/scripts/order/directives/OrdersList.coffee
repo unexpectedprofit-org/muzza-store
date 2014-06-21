@@ -34,5 +34,8 @@ angular.module('MuzzaStore.order').directive 'ordersList', ($ionicModal, OrderSe
     $scope.dispatchOrder = (order) ->
       OrderService.dispatchOrder order
 
+    $scope.deliverOrder = (order) ->
+      OrderService.deliverOrder order
+
     $scope.closeOrder = (order) ->
       OrderService.closeOrder order
