@@ -1,10 +1,12 @@
 angular.module('MuzzaStore.order',[])
+angular.module('MuzzaStore.store',[])
 
 
 
 angular.module("MuzzaStore", ['ui.router', 'ionic',
                               'MuzzaStore.templates',
-                              'MuzzaStore.order'])
+                              'MuzzaStore.order',
+                              'MuzzaStore.store'])
 
 angular.module("MuzzaStore").run ($ionicPlatform, $state) ->
   $ionicPlatform.ready ->
@@ -23,6 +25,14 @@ angular.module("MuzzaStore").config ($stateProvider, $urlRouterProvider) ->
     views:
       navContent:
         templateUrl: "../app/templates/menu.html"
+
+
+  .state "app.store-details",
+    url: "/store/details"
+    views:
+      navContent:
+        templateUrl: "../app/scripts/store/templates/store-details-view.html"
+
 
   .state "app.orders-list",
     url: "/orders/list"
