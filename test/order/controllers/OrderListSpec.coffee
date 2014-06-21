@@ -10,7 +10,7 @@ describe "Order controller", ->
   beforeEach ->
     module ($provide) ->
       $provide.value 'OrderService',
-        listOrders: () -> null
+        listOrdersByStatus: () -> null
         acceptOrder: () -> null
       null
 
@@ -28,32 +28,11 @@ describe "Order controller", ->
     it "should have functions defined", ->
       createController {}
       expect(scope.orders).toBeDefined()
-      expect(scope.takeOrder).toBeDefined()
-      expect(scope.viewOrder).toBeDefined()
 
-  describe "listOrders functionality", ->
+  describe "listOrdersByStatus functionality", ->
 
     it "should call the service", ->
-      listOrdersSpy = spyOn(OrderService, 'listOrders').and.callThrough()
+      listOrdersSpy = spyOn(OrderService, 'listOrdersByStatus').and.callThrough()
       createController {}
       expect(listOrdersSpy).toHaveBeenCalled()
-
-  describe "acceptOrder functionality", ->
-
-    it "should call the service", ->
-      acceptOrderSpy = spyOn(OrderService, 'acceptOrder').and.callThrough()
-      createController {}
-      order = {id:1}
-      scope.takeOrder order
-
-      expect(acceptOrderSpy).toHaveBeenCalledWith order
-
-  describe "viewOrder functionality", ->
-
-    it "should set order in scope", ->
-      createController {}
-
-      order = {id:1}
-      scope.viewOrder order
-
-      expect(scope.order).toEqual order
+      expect(listOrdersSpy.calls.count()).toBe 6

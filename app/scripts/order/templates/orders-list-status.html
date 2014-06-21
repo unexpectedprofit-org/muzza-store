@@ -1,0 +1,28 @@
+<h1>{{ orderStatus }}</h1>
+
+<div data-ng-if="orders.length == 0">No hay ordenes</div>
+
+<div class="row" data-ng-repeat="order in orders">
+
+  <div class="col">{{ $index + 1 }}</div>
+  <div class="col">{{ order.delivery }}</div>
+  <div class="col">{{ order.totalPrice }}</div>
+  <div class="col">{{ order.products.length }}</div>
+  <div class="col">{{ order.contact.name }} - {{ order.contact.phone }}</div>
+  <div class="col">{{ order.status }}</div>
+
+  <div class="col">
+    <button class="button button-positive" data-ng-click="takeOrder(order)">
+      Aceptar
+    </button>
+  </div>
+
+  <div class="col">
+    <button class="button button-positive" data-ng-click="viewOrder(order)">
+      Details
+    </button>
+  </div>
+
+  </br>
+
+</div>

@@ -2,6 +2,7 @@ angular.module('MuzzaStore.order').service 'OrderService', () ->
 
   getOrders = () ->
     order1 =
+      status: "NEW"
       contact:
         email: "aaa@aa.com"
         name: "Gonzalo"
@@ -23,6 +24,7 @@ angular.module('MuzzaStore.order').service 'OrderService', () ->
       ]
 
     order2 =
+      status: "NEW"
       contact:
         email: "aaa@aaajajajsa.com"
         name: "Gabriel"
@@ -51,8 +53,14 @@ angular.module('MuzzaStore.order').service 'OrderService', () ->
 
     [order1,order2]
 
+
+  getOrdersByStatus = (status) ->
+    orders = getOrders()
+    _.filter orders, (order) ->
+      order.status is status
+
   acceptOrder = (order) ->
     order.status = "IN_PROCESS"
 
-  listOrders: getOrders
+  listOrdersByStatus: getOrdersByStatus
   acceptOrder: acceptOrder

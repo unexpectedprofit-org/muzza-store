@@ -10,10 +10,16 @@ describe 'Order Service', ->
       OrderService = $injector.get 'OrderService'
 
 
-  describe 'listOrders', ->
+  describe 'listOrdersByStatus', ->
 
     it 'should get an array of orders', ->
-      expect(OrderService.listOrders().length).toBe 2
+      expect(OrderService.listOrdersByStatus('NEW').length).toBe 2
+      expect(OrderService.listOrdersByStatus('IN_PROGRESS').length).toBe 0
+      expect(OrderService.listOrdersByStatus('READY_PICKUP').length).toBe 0
+      expect(OrderService.listOrdersByStatus('DELIVERY').length).toBe 0
+      expect(OrderService.listOrdersByStatus('CLOSED').length).toBe 0
+      expect(OrderService.listOrdersByStatus('CANCELED').length).toBe 0
+
 
   describe 'acceptOrder', ->
 

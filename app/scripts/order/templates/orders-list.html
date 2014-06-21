@@ -9,30 +9,28 @@
 
   <ion-content class="has-header">
 
-    <div class="row" data-ng-repeat="order in orders">
 
-      <div class="col">{{ order.delivery }}</div>
-      <div class="col">{{ order.totalPrice }}</div>
-      <div class="col">{{ order.products.length }}</div>
-      <div class="col">{{ order.contact.name }} - {{ order.contact.phone }}</div>
-      <div class="col">{{ order.status }}</div>
+    <orders-list data-ng-model="orders.new" data-order-status="new"></orders-list>
 
-      <div class="col">
-        <button class="button button-positive" data-ng-click="takeOrder(order)">
-          Aceptar
-        </button>
-      </div>
+    </hr>
 
-      <div class="col">
-        <button class="button button-positive" data-ng-click="viewOrder(order)">
-          Details
-        </button>
-      </div>
+    <orders-list data-ng-model="orders.progress" data-order-status="progress"></orders-list>
 
-      </br>
+    </hr>
 
-    </div>
+    <orders-list data-ng-model="orders.pickup" data-order-status="pickup"></orders-list>
 
+    </hr>
+
+    <orders-list data-ng-model="orders.delivery" data-order-status="delivery"></orders-list>
+
+    </hr>
+
+    <orders-list data-ng-model="orders.close" data-order-status="close"></orders-list>
+
+    </hr>
+
+    <orders-list data-ng-model="orders.cancel" data-order-status="cancel"></orders-list>
 
   </ion-content>
 
