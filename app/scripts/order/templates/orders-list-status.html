@@ -11,16 +11,44 @@
   <div class="col">{{ order.contact.name }} - {{ order.contact.phone }}</div>
 
   <div class="col">
-    <button class="button button-positive" data-ng-click="takeOrder(order)">
+
+    <button class="button button-positive"
+            data-ng-if="actionButtons.accept"
+            data-ng-click="takeOrder(order)">
       Aceptar
+    </button>
+
+    <button class="button button-positive"
+            data-ng-if="actionButtons.view"
+            data-ng-click="viewOrder(order)">
+      Details
+    </button>
+
+    <button class="button button-positive"
+            data-ng-if="actionButtons.ready"
+            data-ng-click="dispatchOrder(order)">
+      Orden Lista
+    </button>
+
+    <button class="button button-positive"
+            data-ng-if="actionButtons.delivery"
+            data-ng-click="">
+      Asignar delivery
+    </button>
+
+    <button class="button button-positive"
+            data-ng-if="actionButtons.close"
+            data-ng-click="">
+      Finalizar
+    </button>
+
+    <button class="button button-positive"
+            data-ng-if="actionButtons.cancel"
+            data-ng-click="">
+      Cancelar
     </button>
   </div>
 
-  <div class="col">
-    <button class="button button-positive" data-ng-click="viewOrder(order)">
-      Details
-    </button>
-  </div>
 
   </br>
 

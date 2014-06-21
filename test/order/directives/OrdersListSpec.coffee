@@ -18,27 +18,72 @@ describe "OrdersList", ->
         id: 2
         desc: "Categ 2"
       ]
+      $scope.statusValue = "NEW"
 
-      element = angular.element('<orders-list data-ng-model="ordersWithStatus" data-order-status="exampleStatus"></orders-list>')
+      element = angular.element('<orders-list data-ng-model="ordersWithStatus" data-order-status="statusValue"></orders-list>')
       $compile(element)($rootScope)
       $scope.$digest()
       isolatedScope = element.isolateScope()
 
   describe "init", ->
 
-    it "should have config buttons set up in scope", ->
-
-      expect(isolatedScope.actionButtons.accept).toBeFalsy()
-      expect(isolatedScope.actionButtons.view).toBeTruthy()
-      expect(isolatedScope.actionButtons.ready).toBeFalsy()
-      expect(isolatedScope.actionButtons.close).toBeFalsy()
-      expect(isolatedScope.actionButtons.cancel).toBeFalsy()
-
     it "should have functions defined", ->
       expect(isolatedScope.takeOrder).toBeDefined()
       expect(isolatedScope.viewOrder).toBeDefined()
+      expect(isolatedScope.dispatchOrder).toBeDefined()
 
-      describe "acceptOrder functionality", ->
+
+  describe "evaluate config buttons display ", ->
+
+    describe "accept button", ->
+
+      it "should enable button", ->
+        expect(isolatedScope.actionButtons.accept).toBeTruthy()
+
+      it "should disable button", ->
+        inject ($compile, $rootScope) ->
+          $scope = $rootScope
+          $scope.statusValue = "OTHER_STATUS"
+          element = angular.element('<orders-list data-ng-model="ordersWithStatus" data-order-status="statusValue"></orders-list>')
+          $compile(element)($rootScope)
+          $scope.$digest()
+          isolatedScope = element.isolateScope()
+
+          expect(isolatedScope.actionButtons.accept).toBeFalsy()
+
+
+    describe "ready button", ->
+
+      it "should disable button", ->
+        expect(isolatedScope.actionButtons.ready).toBeFalsy()
+
+      it "should enable button", ->
+        inject ($compile, $rootScope) ->
+          $scope = $rootScope
+          $scope.statusValue = "IN_PROGRESS"
+          element = angular.element('<orders-list data-ng-model="ordersWithStatus" data-order-status="statusValue"></orders-list>')
+          $compile(element)($rootScope)
+          $scope.$digest()
+          isolatedScope = element.isolateScope()
+
+          expect(isolatedScope.actionButtons.ready).toBeTruthy()
+
+    describe "delivery button", ->
+
+      it "should disable button", ->
+        expect(isolatedScope.actionButtons.delivery).toBeFalsy()
+
+      it "should enable button", ->
+        inject ($compile, $rootScope) ->
+          $scope = $rootScope
+          $scope.statusValue = "READY_DELIVERY"
+          element = angular.element('<orders-list data-ng-model="ordersWithStatus" data-order-status="statusValue"></orders-list>')
+          $compile(element)($rootScope)
+          $scope.$digest()
+          isolatedScope = element.isolateScope()
+
+          expect(isolatedScope.actionButtons.delivery).toBeTruthy()
+
 
   describe "takeOrder functionality", ->
 
@@ -50,6 +95,17 @@ describe "OrdersList", ->
         isolatedScope.takeOrder order
 
         expect(acceptOrderSpy).toHaveBeenCalledWith order
+
+  describe "dispatch functionality", ->
+
+    it "should call the service", ->
+      inject ($injector) ->
+        OrderService = $injector.get 'OrderService'
+        dispatchOrderSpy = spyOn(OrderService, 'dispatchOrder')
+        order = {id:1}
+        isolatedScope.dispatchOrder order
+
+        expect(dispatchOrderSpy).toHaveBeenCalledWith order
 
   describe "viewOrder functionality", ->
 

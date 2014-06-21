@@ -9,23 +9,31 @@
 
   <ion-content class="has-header">
 
-    <orders-list data-ng-model="orders.new" data-order-status="Nuevas"></orders-list>
+    <orders-list data-ng-model="orders.new.list" data-order-status="orders.new.status"></orders-list>
 
     </hr>
 
-    <orders-list data-ng-model="orders.progress" data-order-status="En Proceso"></orders-list>
+    <orders-list data-ng-model="orders.progress.list" data-order-status="orders.progress.status"></orders-list>
 
     </hr>
 
-    <orders-list data-ng-model="orders.ready" data-order-status="Listas Para Entregar"></orders-list>
+    <orders-list data-ng-model="orders.to_pickup.list" data-order-status="orders.to_pickup.status"></orders-list>
 
     </hr>
 
-    <orders-list data-ng-model="orders.close" data-order-status="Finalizadas"></orders-list>
+    <orders-list data-ng-model="orders.to_deliver.list" data-order-status="orders.to_deliver.status"></orders-list>
 
     </hr>
 
-    <orders-list data-ng-model="orders.cancel" data-order-status="Canceladas"></orders-list>
+    <orders-list data-ng-model="orders.delivery.list" data-order-status="orders.delivery.status"></orders-list>
+
+    </hr>
+
+    <orders-list data-ng-model="orders.closed.list" data-order-status="orders.closed.status"></orders-list>
+
+    </hr>
+
+    <orders-list data-ng-model="orders.canceled.list" data-order-status="orders.canceled.status"></orders-list>
 
   </ion-content>
 

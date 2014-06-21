@@ -1,0 +1,11 @@
+angular.module('MuzzaStore.order').constant 'ORDER_STATUS',
+
+  STATUS: {
+    NEW: "NEW"
+    IN_PROGRESS: "IN_PROGRESS"
+    READY_PICKUP: "READY_PICKUP"
+    READY_DELIVERY: "READY_DELIVERY"
+    DELIVERY: "DELIVERY"
+    CLOSED: "CLOSED"
+    CANCELED: "CANCELED"
+  }

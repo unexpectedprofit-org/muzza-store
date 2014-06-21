@@ -1,4 +1,4 @@
-angular.module('MuzzaStore.order').service 'OrderService', ($rootScope) ->
+angular.module('MuzzaStore.order').service 'OrderService', ($rootScope, ORDER_STATUS) ->
 
   storeOrders = [
     id: 1
@@ -50,6 +50,34 @@ angular.module('MuzzaStore.order').service 'OrderService', ($rootScope) ->
       qty: 2
       totalPrice: 16300
     ]
+  ,
+    id: 3
+    status: "NEW"
+    contact:
+      email: "aaa@aaajajajsa.com"
+      name: "Gabriel"
+      phone: "8888888888"
+    delivery: "delivery"
+    totalPrice: 30000
+    products: [
+      cat: "PIZZA"
+      subcat: 1
+      description: "Fugazzeta"
+      qty: 1
+      totalPrice: 8000
+    ,
+      cat: "PIZZA"
+      subcat: 1
+      description: "Napolitana"
+      qty: 9
+      totalPrice: 10000
+    ,
+      cat: "PIZZA"
+      subcat: 3
+      description: "Jamon y Morrones"
+      qty: 2
+      totalPrice: 12000
+    ]
   ]
 
 
@@ -57,36 +85,64 @@ angular.module('MuzzaStore.order').service 'OrderService', ($rootScope) ->
   getOrdersByStatus = () ->
 
     orders_new = _.filter storeOrders, (order) ->
-      order.status is "NEW"
+      order.status is ORDER_STATUS.STATUS.NEW
 
     orders_progress = _.filter storeOrders, (order) ->
-      order.status is "IN_PROGRESS"
+      order.status is ORDER_STATUS.STATUS.IN_PROGRESS
 
-    orders_pickup = _.filter storeOrders, (order) ->
-      order.status is "READY_PICKUP"
+    orders_to_pickup = _.filter storeOrders, (order) ->
+      order.status is ORDER_STATUS.STATUS.READY_PICKUP
 
-    orders_delivery = _.filter storeOrders, (order) ->
-      order.status is "DELIVERY"
+    orders_to_deliver = _.filter storeOrders, (order) ->
+      order.status is ORDER_STATUS.STATUS.READY_DELIVERY
+
+    orders_in_delivery = _.filter storeOrders, (order) ->
+      order.status is ORDER_STATUS.STATUS.DELIVERY
 
     orders_close = _.filter storeOrders, (order) ->
-      order.status is "CLOSED"
+      order.status is ORDER_STATUS.STATUS.CLOSED
 
     orders_cancel = _.filter storeOrders, (order) ->
-      order.status is "CANCELED"
+      order.status is ORDER_STATUS.STATUS.CANCELED
 
     {
-      new: orders_new
-      progress: orders_progress
-      pickup: orders_pickup
-      delivery: orders_delivery
-      close: orders_close
-      cancel: orders_cancel
+      new:
+        status: ORDER_STATUS.STATUS.NEW
+        list: orders_new
+      progress:
+        status: ORDER_STATUS.STATUS.IN_PROGRESS
+        list: orders_progress
+      to_pickup:
+        status: ORDER_STATUS.STATUS.READY_PICKUP
+        list: orders_to_pickup
+      to_deliver:
+        status: ORDER_STATUS.STATUS.READY_DELIVERY
+        list: orders_to_deliver
+      delivery:
+        status: ORDER_STATUS.STATUS.DELIVERY
+        list: orders_in_delivery
+      closed:
+        status: ORDER_STATUS.STATUS.CLOSED
+        list: orders_close
+      canceled:
+        status: ORDER_STATUS.STATUS.CANCELED
+        list: orders_cancel
     }
 
 
   acceptOrder = (order) ->
-    order.status = "IN_PROGRESS"
+    order.status = ORDER_STATUS.STATUS.IN_PROGRESS
     $rootScope.$broadcast 'ORDER_STATUS_CHANGED'
+
+  dispatchOrder = (order) ->
+    if order.delivery is "delivery"
+      order.status = ORDER_STATUS.STATUS.READY_DELIVERY
+    else
+      order.status = ORDER_STATUS.STATUS.READY_PICKUP
+
+    $rootScope.$broadcast 'ORDER_STATUS_CHANGED'
+
 
   listOrdersByStatus: getOrdersByStatus
   acceptOrder: acceptOrder
+  dispatchOrder: dispatchOrder

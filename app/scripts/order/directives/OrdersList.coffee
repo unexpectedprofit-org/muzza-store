@@ -1,8 +1,8 @@
-angular.module('MuzzaStore.order').directive 'ordersList', ($ionicModal, OrderService, OrderDetails) ->
+angular.module('MuzzaStore.order').directive 'ordersList', ($ionicModal, OrderService, OrderDetails, ORDER_STATUS) ->
   restrict: 'EA'
   scope: {
     orders: '=ngModel'
-    orderStatus: '@'
+    orderStatus: '='
   }
   require: 'ngModel'
   templateUrl: '../app/scripts/order/templates/orders-list-status.html'
@@ -10,9 +10,10 @@ angular.module('MuzzaStore.order').directive 'ordersList', ($ionicModal, OrderSe
   link: ($scope, ele, attrs, ctrl) ->
 
     $scope.actionButtons =
-      accept: false
+      accept: $scope.orderStatus is ORDER_STATUS.STATUS.NEW
       view: true
-      ready: false
+      ready: $scope.orderStatus is ORDER_STATUS.STATUS.IN_PROGRESS
+      delivery: $scope.orderStatus is ORDER_STATUS.STATUS.READY_DELIVERY
       close: false
       cancel: false
 
@@ -29,3 +30,6 @@ angular.module('MuzzaStore.order').directive 'ordersList', ($ionicModal, OrderSe
       details.then (modal) ->
         $scope.orderDetails = new OrderDetails modal
         $scope.orderDetails.show()
+
+    $scope.dispatchOrder = (order) ->
+      OrderService.dispatchOrder order
