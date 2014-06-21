@@ -1,11 +1,9 @@
-angular.module('MuzzaStore.controllers',[])
 angular.module('MuzzaStore.order',[])
 
 
 
 angular.module("MuzzaStore", ['ui.router', 'ionic',
                               'MuzzaStore.templates',
-                              'MuzzaStore.controllers',
                               'MuzzaStore.order'])
 
 angular.module("MuzzaStore").run ($ionicPlatform, $state) ->
