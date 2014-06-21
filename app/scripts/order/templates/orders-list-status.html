@@ -1,4 +1,4 @@
-<h1>{{ orderStatus }}</h1>
+<h1>{{ orderStatus }} ({{orders.length}})</h1>
 
 <div data-ng-if="orders.length == 0">No hay ordenes</div>
 
@@ -9,7 +9,6 @@
   <div class="col">{{ order.totalPrice }}</div>
   <div class="col">{{ order.products.length }}</div>
   <div class="col">{{ order.contact.name }} - {{ order.contact.phone }}</div>
-  <div class="col">{{ order.status }}</div>
 
   <div class="col">
     <button class="button button-positive" data-ng-click="takeOrder(order)">

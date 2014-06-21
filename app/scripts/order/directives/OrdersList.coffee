@@ -12,8 +12,7 @@ angular.module('MuzzaStore.order').directive 'ordersList', ($ionicModal, OrderSe
     $scope.actionButtons =
       accept: false
       view: true
-      pickup: false
-      delivery: false
+      ready: false
       close: false
       cancel: false
 

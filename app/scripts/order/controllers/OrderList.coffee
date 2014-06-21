@@ -1,9 +1,7 @@
-angular.module('MuzzaStore.order').controller 'OrderList', (OrderService, $scope) ->
+angular.module('MuzzaStore.order').controller 'OrderList', (OrderService, $scope, $rootScope) ->
 
-  $scope.orders =
-    new: OrderService.listOrdersByStatus 'NEW'
-    progress: OrderService.listOrdersByStatus 'IN_PROGRESS'
-    pickup: OrderService.listOrdersByStatus 'READY_PICKUP'
-    delivery: OrderService.listOrdersByStatus 'DELIVERY'
-    close: OrderService.listOrdersByStatus 'CLOSED'
-    cancel: OrderService.listOrdersByStatus 'CANCELED'
+  $scope.orders = OrderService.listOrdersByStatus()
+
+  $rootScope.$on 'ORDER_STATUS_CHANGED', () ->
+    $scope.orders = OrderService.listOrdersByStatus()
+

@@ -30,8 +30,7 @@ describe "OrdersList", ->
 
       expect(isolatedScope.actionButtons.accept).toBeFalsy()
       expect(isolatedScope.actionButtons.view).toBeTruthy()
-      expect(isolatedScope.actionButtons.pickup).toBeFalsy()
-      expect(isolatedScope.actionButtons.delivery).toBeFalsy()
+      expect(isolatedScope.actionButtons.ready).toBeFalsy()
       expect(isolatedScope.actionButtons.close).toBeFalsy()
       expect(isolatedScope.actionButtons.cancel).toBeFalsy()
 

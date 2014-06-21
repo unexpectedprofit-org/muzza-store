@@ -1,4 +1,4 @@
-describe "Order controller", ->
+describe "Order List Controller", ->
 
   beforeEach ->
     module 'ionic'
@@ -17,6 +17,7 @@ describe "Order controller", ->
   beforeEach ->
     inject ($controller, $rootScope, $injector) ->
       OrderService = $injector.get 'OrderService'
+      rootScope = $rootScope
       scope = $rootScope.$new()
       createController = ()->
         $controller "OrderList",
@@ -35,4 +36,15 @@ describe "Order controller", ->
       listOrdersSpy = spyOn(OrderService, 'listOrdersByStatus').and.callThrough()
       createController {}
       expect(listOrdersSpy).toHaveBeenCalled()
-      expect(listOrdersSpy.calls.count()).toBe 6
+
+  describe "on event broadcast", ->
+
+    it "should call the service", ->
+      listOrdersSpy = spyOn(OrderService, 'listOrdersByStatus').and.callThrough()
+      createController {}
+
+      rootScope.$broadcast 'ORDER_STATUS_CHANGED'
+
+      expect(listOrdersSpy).toHaveBeenCalled()
+      expect(listOrdersSpy.calls.count()).toBe 2
+
