@@ -9,7 +9,7 @@ angular.module("MuzzaStore", ['ui.router', 'ionic',
 angular.module("MuzzaStore").run ($ionicPlatform, $state) ->
   $ionicPlatform.ready ->
     StatusBar.styleDefault() if window.StatusBar
-    $state.go 'app.menu'
+    $state.go 'app.orders-list'
 
 
 angular.module("MuzzaStore").config ($stateProvider, $urlRouterProvider) ->
