@@ -1,0 +1,185 @@
+<div class="list">
+
+  <form name="storeEditForm" novalidate>
+
+    <label class="item item-input">
+      Nombre Real:
+      <input type="text"
+             placeholder="Razon Social"
+             name="name_real"
+             data-ng-model="store.name_real"
+             data-ng-class="(storeEditForm.name_real.$invalid)? 'ng-invalid' : 'ng-valid'"
+             data-ng-maxlength="50"
+             data-ng-required="true">
+
+      <i class="icon ion-alert-circled error"
+         data-ng-if="storeEditForm.name_real.$invalid"></i>
+      <i class="icon ion-checkmark-circled success"
+         data-ng-if="storeEditForm.name_real.$valid"></i>
+    </label>
+
+    <label class="item item-input">
+      Nombre Fantasia:
+      <input type="text"
+             placeholder="Nombre Fantasia"
+             name="name_fantasy"
+             data-ng-model="store.name_fantasy"
+             data-ng-class="(storeEditForm.name_fantasy.$invalid)? 'ng-invalid' : 'ng-valid'"
+             data-ng-maxlength="50"
+             data-ng-required="false">
+
+      <i class="icon ion-alert-circled error"
+         data-ng-if="storeEditForm.name_fantasy.$invalid"></i>
+      <i class="icon ion-checkmark-circled success"
+         data-ng-if="storeEditForm.name_fantasy.$valid"></i>
+    </label>
+
+    <!--ADDRESS ----------->
+    <label class="item item-input">
+      Calle:
+      <input type="text"
+             placeholder="Calle"
+             name="addr_street"
+             data-ng-model="store.address.street"
+             data-ng-class="(storeEditForm.addr_street.$invalid)? 'ng-invalid' : 'ng-valid'"
+             data-ng-maxlength="50"
+             data-ng-required="true">
+
+      <i class="icon ion-alert-circled error"
+         data-ng-if="storeEditForm.addr_street.$invalid"></i>
+      <i class="icon ion-checkmark-circled success"
+         data-ng-if="storeEditForm.addr_street.$valid"></i>
+    </label>
+
+    <label class="item item-input">
+      Numero:
+      <input type="number"
+             placeholder="Numero"
+             name="addr_door"
+             data-ng-model="store.address.door"
+             data-ng-class="(storeEditForm.addr_door.$invalid)? 'ng-invalid' : 'ng-valid'"
+             data-ng-maxlength="5"
+             data-ng-required="true">
+
+      <i class="icon ion-alert-circled error"
+         data-ng-if="storeEditForm.addr_door.$invalid"></i>
+      <i class="icon ion-checkmark-circled success"
+         data-ng-if="storeEditForm.addr_door.$valid"></i>
+    </label>
+
+    <label class="item item-input">
+      Localidad:
+      <input type="text"
+             placeholder="Localidad"
+             name="addr_area"
+             data-ng-model="store.address.area"
+             data-ng-class="(storeEditForm.addr_area.$invalid)? 'ng-invalid' : 'ng-valid'"
+             data-ng-maxlength="50"
+             data-ng-required="true">
+
+      <i class="icon ion-alert-circled error"
+         data-ng-if="storeEditForm.addr_area.$invalid"></i>
+      <i class="icon ion-checkmark-circled success"
+         data-ng-if="storeEditForm.addr_area.$valid"></i>
+    </label>
+
+    <label class="item item-input">
+      Barrio:
+      <input type="text"
+             placeholder="Barrio"
+             name="addr_hood"
+             data-ng-model="store.address.hood"
+             data-ng-class="(storeEditForm.addr_hood.$invalid)? 'ng-invalid' : 'ng-valid'"
+             data-ng-maxlength="50"
+             data-ng-required="false">
+
+      <i class="icon ion-alert-circled error"
+         data-ng-if="storeEditForm.addr_hood.$invalid"></i>
+      <i class="icon ion-checkmark-circled success"
+         data-ng-if="storeEditForm.addr_hood.$valid"></i>
+    </label>
+
+    <label class="item item-input">
+      Provincia:
+      <input type="text"
+             placeholder="Provincia"
+             name="addr_state"
+             data-ng-model="store.address.state"
+             data-ng-class="(storeEditForm.addr_state.$invalid)? 'ng-invalid' : 'ng-valid'"
+             data-ng-maxlength="50"
+             data-ng-required="true">
+
+      <i class="icon ion-alert-circled error"
+         data-ng-if="storeEditForm.addr_state.$invalid"></i>
+      <i class="icon ion-checkmark-circled success"
+         data-ng-if="storeEditForm.addr_state.$valid"></i>
+    </label>
+    <!--ADDRESS ----------->
+
+    <label class="item item-input">
+      Tel1:
+      <input type="tel"
+             placeholder="Telefono 1"
+             name="phone_main"
+             data-ng-model="store.phone.main"
+             data-ng-class="(storeEditForm.phone_main.$invalid)? 'ng-invalid' : 'ng-valid'"
+             data-ng-maxlength="10"
+             data-ng-pattern="/^[0-9]+$/"
+             data-ng-required="true">
+
+      <i class="icon ion-alert-circled error"
+         data-ng-if="storeEditForm.phone_main.$invalid"></i>
+      <i class="icon ion-checkmark-circled success"
+         data-ng-if="storeEditForm.phone_main.$valid"></i>
+    </label>
+
+    <label class="item item-input">
+      Tel2:
+      <input type="tel"
+             placeholder="Telefono 2"
+             name="phone_other"
+             data-ng-model="store.phone.other"
+             data-ng-class="(storeEditForm.phone_other.$invalid)? 'ng-invalid' : 'ng-valid'"
+             data-ng-maxlength="10"
+             data-ng-pattern="/^[0-9]+$/"
+             data-ng-required="false">
+
+      <i class="icon ion-alert-circled error"
+         data-ng-if="storeEditForm.phone_other.$invalid"></i>
+      <i class="icon ion-checkmark-circled success"
+         data-ng-if="storeEditForm.phone_other.$valid"></i>
+    </label>
+
+
+    <label class="item item-input">
+      Cel:
+      <input type="tel"
+             placeholder="Celular"
+             name="phone_cel"
+             data-ng-model="store.phone.cel"
+             data-ng-class="(storeEditForm.phone_cel.$invalid)? 'ng-invalid' : 'ng-valid'"
+             data-ng-maxlength="12"
+             data-ng-pattern="/^[0-9]+$/"
+             data-ng-required="false">
+
+
+      <i class="icon ion-alert-circled error"
+         data-ng-if="storeEditForm.phone_cel.$invalid"></i>
+      <i class="icon ion-checkmark-circled success"
+         data-ng-if="storeEditForm.phone_cel.$valid"></i>
+    </label>
+
+
+    <button class="button button-full button-positive"
+            data-ng-disabled="storeEditForm.$invalid"
+            data-ng-click="save(store)">
+      Guardar
+    </button>
+
+    <button class="button button-full button-royal" data-ng-click="cancel()">
+      Cancelar
+    </button>
+
+  </form>
+
+</div>

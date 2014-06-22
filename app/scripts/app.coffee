@@ -33,6 +33,12 @@ angular.module("MuzzaStore").config ($stateProvider, $urlRouterProvider) ->
       navContent:
         templateUrl: "../app/scripts/store/templates/store-details-view.html"
 
+  .state "app.store-edit",
+    url: "/store/edit"
+    views:
+      navContent:
+        templateUrl: "../app/scripts/store/templates/store-edit.html"
+        controller: "StoreEditCtrl"
 
   .state "app.orders-list",
     url: "/orders/list"

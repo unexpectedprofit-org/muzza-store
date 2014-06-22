@@ -1,5 +1,4 @@
-angular.module('MuzzaStore.store').directive 'storeDetails', (StoreService) ->
-
+angular.module('MuzzaStore.store').directive 'storeDetails', (StoreService, $state) ->
   restrict: 'EA'
   scope: {
   }
@@ -8,3 +7,6 @@ angular.module('MuzzaStore.store').directive 'storeDetails', (StoreService) ->
   link: ($scope, ele, attrs, ctrl) ->
 
     $scope.store = StoreService.getDetails()
+
+    $scope.edit = () ->
+      $state.go 'app.store-edit'

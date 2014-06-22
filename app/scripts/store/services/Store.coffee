@@ -35,4 +35,10 @@ angular.module('MuzzaStore.store').service 'StoreService', () ->
   retrieveDetails = () ->
     store
 
+  updateStore = (_store) ->
+    store = _store
+
+
+
   getDetails: retrieveDetails
+  updateStore: updateStore

@@ -20,3 +20,15 @@ describe 'Store Service', ->
     it "should retrieve details", ->
 
       expect(StoreService.getDetails().name_fantasy).toBe "La pizzeria de Juancho"
+
+  describe "updateStore functionality", ->
+
+    it "should update the store info", ->
+
+      store1 = angular.copy StoreService.getDetails()
+
+      store1.name_fantasy = "My new fantasy name"
+
+      StoreService.updateStore store1
+
+      expect(StoreService.getDetails().name_fantasy).toBe 'My new fantasy name'
