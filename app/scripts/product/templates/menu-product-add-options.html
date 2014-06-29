@@ -41,6 +41,28 @@ OPCIONES DEL PRODUCTO
     <!--<i class="icon ion-checkmark-circled success"-->
        <!--data-ng-if="productForm.prod_option_optionIndex_desc.$valid"></i>-->
   </label>
+  <label class="item item-input item-stacked-label" data-ng-show="$parent.product.options[$index].componentType == 'MULTIPLE'">
+    <span class="input-label">Cantidad Minima de opciones</span>
+    <input type="number" placeholder="Ingrese el minimo numero de opciones necesario (Ejemplo: 1)"
+           name="prod_option_{{optionIndex}}_min"
+           data-ng-required="$parent.product.options[$index].componentType == 'MULTIPLE'"
+           data-ng-model="$parent.product.options[$index].min"
+           data-ng-maxlength="2"
+           maxlength="2"
+           data-ng-minlength="1">
+  </label>
+  <label class="item item-input item-stacked-label" data-ng-show="$parent.product.options[$index].componentType == 'MULTIPLE'">
+    <span class="input-label">Cantidad Maxima de opciones</span>
+    <input type="number" placeholder="Ingrese el maximo numero de opciones permitido (Ejemplo: 4)"
+           name="prod_option_{{optionIndex}}_max"
+           data-ng-required="$parent.product.options[$index].componentType == 'MULTIPLE'"
+           data-ng-model="$parent.product.options[$index].max"
+           data-ng-maxlength="2"
+           maxlength="2"
+           data-ng-minlength="1">
+    <!--quiza cuando el usuario ingresa un numero aca arriba,-->
+    <!--se podria agregar automaticamente la cantidad esa de inputs que se agregar en el html abajo...-->
+  </label>
 
   <div data-ng-init="$parent.product.options[$index].items = []; currentProdItems = $parent.product.options[$index].items"
        data-ng-include data-src="'../app/scripts/product/templates/menu-product-add-options-items.html'"></div>
