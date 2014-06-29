@@ -60,11 +60,20 @@ angular.module('MuzzaStore.store').service 'StoreService', () ->
 
     idCat = store['category'].length + 1
 
-    store['category'].push {id:idCat,description:categoryDesc,products:[]}
+    elementFound = _.find store['category'], (elem) ->
+      elem.description.toUpperCase() is categoryDesc.toUpperCase()
 
-    {
-      status: 'ok'
-    }
+    if elementFound is undefined
+      store['category'].push {id:idCat,description:categoryDesc,products:[]}
+      {
+        status: 'ok'
+      }
+    else
+      {
+        status: 'NOK'
+        msg: 'CATEGORY_ALREADY_REGISTERED'
+      }
+
 
 
   saveProduct = (product) ->

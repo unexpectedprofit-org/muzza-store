@@ -57,11 +57,25 @@ describe 'Store Service', ->
 
       response = StoreService.addProductCategory "my_other_category"
 
-      StoreService.getDetails()
-
       expect(response.status).toBe 'ok'
       expect(StoreService.getDetails().category[1].id).toBe 2
       expect(StoreService.getDetails().category[1].description).toBe 'my_other_category'
+
+    it "should not store the category if already stored", ->
+      response = StoreService.addProductCategory "bebidas"
+
+      expect(response.status).toBe 'NOK'
+      expect(response.msg).toBe 'CATEGORY_ALREADY_REGISTERED'
+
+      response = StoreService.addProductCategory "BEBIDAS"
+
+      expect(response.status).toBe 'NOK'
+      expect(response.msg).toBe 'CATEGORY_ALREADY_REGISTERED'
+
+      response = StoreService.addProductCategory "BeBIdAs"
+
+      expect(response.status).toBe 'NOK'
+      expect(response.msg).toBe 'CATEGORY_ALREADY_REGISTERED'
 
 
   describe "addProduct functionality", ->
