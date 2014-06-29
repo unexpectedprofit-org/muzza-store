@@ -58,12 +58,11 @@ angular.module('MuzzaStore.store').service 'StoreService', () ->
     if store['category'] is undefined
       store['category'] = []
 
-    idCat = store['category'].length + 1
-
     elementFound = _.find store['category'], (elem) ->
       elem.description.toUpperCase() is categoryDesc.toUpperCase()
 
     if elementFound is undefined
+      idCat = store['category'].length + 1
       store['category'].push {id:idCat,description:categoryDesc,products:[]}
       {
         status: 'ok'
@@ -82,16 +81,34 @@ angular.module('MuzzaStore.store').service 'StoreService', () ->
       catElem.id is parseInt product.categoryId
 
     if categoryToUpdate isnt undefined
-      product.id = categoryToUpdate.products.length + 1
-      categoryToUpdate.products.push product
 
-      response =
-        status: 'ok'
+      found = false
+      productFound = undefined
+
+      _.each store['category'], (category) ->
+
+        if !found
+          productFound = _.find category.products, (prod) ->
+            prod.description.toUpperCase() is product.description.toUpperCase()
+
+          if productFound isnt undefined
+            found = true
+
+      if productFound is undefined
+        product.id = categoryToUpdate.products.length + 1
+        categoryToUpdate.products.push product
+
+        response =
+          status: 'ok'
+      else
+        response =
+          status: "NOK"
+          msg: "PRODUCT_ALREADY_REGISTERED"
 
     else
       response =
         status: "NOK"
-        error: "no category found"
+        msg: "no category found"
 
     response
 

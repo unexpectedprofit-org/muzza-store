@@ -135,6 +135,34 @@ describe 'Store Service', ->
       expect(StoreService.getDetails().category[0].products.length).toBe 1
 
 
+    it "should not store the product if already stored", ->
+      product =
+        description: "my_product"
+        categoryId: 1
+
+      #set up product
+      StoreService.addProduct product
+
+
+      response = StoreService.addProduct product
+      expect(response.status).toBe 'NOK'
+      expect(response.msg).toBe 'PRODUCT_ALREADY_REGISTERED'
+
+      product =
+        description: "MY_PRODUCT"
+        categoryId: 2
+      response = StoreService.addProduct product
+      expect(response.status).toBe 'NOK'
+      expect(response.msg).toBe 'PRODUCT_ALREADY_REGISTERED'
+
+      product =
+        description: "My_pROdUcT"
+        categoryId: 3
+      response = StoreService.addProduct product
+      expect(response.status).toBe 'NOK'
+      expect(response.msg).toBe 'PRODUCT_ALREADY_REGISTERED'
+
+
   describe "getProductCategories functionality", ->
 
     it "should get an array of product categories containing only id/description fields", ->
