@@ -1,0 +1,47 @@
+<ion-view title="Listado de Productos">
+
+  <ion-nav-buttons side="left">
+    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+  </ion-nav-buttons>
+
+  <ion-content class="has-header">
+
+    <div data-ng-repeat="category in categories">
+
+      <div>
+        Categoria: {{ category.description }}
+      </div>
+
+      <div data-ng-repeat="product in category.products">
+
+        Producto: {{ product.description }} - $ {{ product.price.base}}
+
+        <hr/>
+        Grupo de Opciones
+        <div data-ng-repeat="option in product.options">
+
+          {{ option.description}} - {{ option.config.component }}
+
+          <pre>
+            {{ option.items | json }}
+          </pre>
+
+        </div>
+
+        <hr/>
+
+      </div>
+
+      <hr/>
+      <hr/>
+      <hr/>
+
+
+
+    </div>
+
+
+
+  </ion-content>
+
+</ion-view>

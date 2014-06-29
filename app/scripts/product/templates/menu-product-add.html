@@ -1,0 +1,96 @@
+<ion-view title="Alta de Product">
+
+  <ion-nav-buttons side="left">
+    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+  </ion-nav-buttons>
+
+  <ion-content class="has-header" data-ng-controller="ProductAddCtrl">
+    <!--if want to include the controller definition in "app.coffee" or
+some other location within this file, then
+the variables are not found at $scope.xxx.
+Instead they are at $scope.$$childTail.xxx -->
+
+
+    <div data-ng-show="response.status"
+            data-ng-class="response.status == 'ok'? 'ng-valid' : 'ng-invalid'">
+      Mensajes::::::::
+      <br/>
+      {{ response.msg }}
+    </div>
+    <form name="productAddForm" novalidate>
+
+      <div class="list list-inset">
+
+        <label class="item item-input item-select"
+               data-ng-class="(productAddForm.prod_category.$invalid)? 'ng-invalid' : 'ng-valid'">
+          <div class="input-label">
+            Categoria:
+          </div>
+
+          <select name="prod_category"
+                  data-ng-model="product.categoryId"
+                  data-ng-required="true"
+                  data-ng-options="key as value for (key,value) in categories">
+          </select>
+        </label>
+
+
+        <label class="item item-input item-stacked-label"
+               data-ng-class="(productAddForm.prod_name.$invalid)? 'ng-invalid' : 'ng-valid'">
+
+          <span class="input-label">Producto</span>
+          <input type="text" placeholder="Ingrese el Producto (Ejemplo Sandwich de Milanesa)"
+                 name="prod_name"
+                 data-ng-required="true"
+                 data-ng-model="product.description"
+                 data-ng-maxlength="50"
+                 maxlength="50"
+                 data-ng-minlength="1">
+          <i class="icon ion-alert-circled error"
+             data-ng-if="productAddForm.prod_name.$invalid"></i>
+          <i class="icon ion-checkmark-circled success"
+             data-ng-if="productAddForm.prod_name.$valid"></i>
+        </label>
+
+
+        <label class="item item-input item-stacked-label"
+               data-ng-class="(productAddForm.prod_price.$invalid)? 'ng-invalid' : 'ng-valid'">
+
+          <span class="input-label">Precio</span>
+          <input type="number" placeholder="Ingrese el Precio"
+                 name="prod_price"
+                 data-ng-required="true"
+                 data-ng-model="product.price.base"
+                 data-ng-maxlength="6"
+                 maxlength="6"
+                 data-ng-minlength="1">
+          <i class="icon ion-alert-circled error"
+             data-ng-if="productAddForm.prod_price.$invalid"></i>
+          <i class="icon ion-checkmark-circled success"
+             data-ng-if="productAddForm.prod_price.$valid"></i>
+        </label>
+
+      </div>
+
+
+      <div class="list list-inset"
+           data-ng-include data-src="'../app/scripts/product/templates/menu-product-add-options.html'">
+
+      </div>
+
+
+      <button class="button button-block button-positive"
+              data-ng-click="addProduct(product)"
+              data-ng-disabled="productAddForm.$invalid">
+        Agregar
+      </button>
+
+    </form>
+
+    <pre>
+      {{ product | json }}
+    </pre>
+
+  </ion-content>
+
+</ion-view>

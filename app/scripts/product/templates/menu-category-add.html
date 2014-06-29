@@ -1,0 +1,50 @@
+<ion-view title="Alta de Categoria">
+
+
+  <ion-nav-buttons side="left">
+    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+  </ion-nav-buttons>
+
+  <ion-content class="has-header" data-ng-controller="CategoryAddCtrl">
+    <!--if want to include the controller definition in "app.coffee" or
+    some other location within this file, then
+the variables are not found at $scope.xxx.
+Instead they are at $scope.$$childTail.xxx -->
+
+    <div data-ng-show="response.status"
+         data-ng-class="(response.status == 'ok') ? 'msg-success' : 'msg-error'">
+      Mensajes::::::::
+      <br/>
+      {{ response.msg }}
+    </div>
+    <form name="categoryAddForm" novalidate>
+
+      <div class="list list-inset">
+
+        <label class="item item-input"
+               data-ng-class="(categoryAddForm.category.$invalid)? 'ng-invalid' : 'ng-valid'">
+        <input type="text" placeholder="Categoria"
+                 data-ng-required="true"
+                 data-ng-model="category"
+                 data-ng-maxlength="30"
+                 data-ng-minlength="1"
+                 name="category">
+          <i class="icon ion-alert-circled error"
+             data-ng-if="categoryAddForm.category.$invalid"></i>
+          <i class="icon ion-checkmark-circled success"
+             data-ng-if="categoryAddForm.category.$valid"></i>
+        </label>
+
+      </div>
+
+      <button class="button button-block button-positive"
+              data-ng-click="addCategory(category)"
+              data-ng-disabled="categoryAddForm.$invalid">
+        Agregar
+      </button>
+
+    </form>
+
+  </ion-content>
+
+</ion-view>

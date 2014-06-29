@@ -1,0 +1,64 @@
+<!--http://jsfiddle.net/Thinkscape/23RPt/-->
+<!--https://github.com/angular/angular.js/issues/1404#issuecomment-30861993-->
+
+
+<div class="list list-inset">
+
+  Opciones....
+  <button class="button button-block button-energized"
+          data-ng-click="currentProdItems.push({})">
+    AGREGAR ITEM
+  </button>
+
+
+  <div data-ng-repeat="item in currentProdItems"
+       data-ng-class="(prod_option_{{optionIndex}}_desc_{{$index}}.$invalid)? 'ng-invalid' : 'ng-valid'">
+
+
+    <div class="item item-divider">
+      Opcion {{ $index + 1 }}:
+      <a class="button button-icon icon ion-trash-b item-icon-right"
+         data-ng-click="currentProdItems.splice($index,1)">
+      </a>
+    </div>
+
+
+    <label class="item item-input item-stacked-label">
+      <span class="input-label">Descripcion</span>
+
+      <input type="text" placeholder="Ingrese la Opcion (Ejemplo: Pan Frances)"
+             name="prod_option_optionIndex_desc_$index"
+             data-ng-required="true"
+             data-ng-model="currentProdItems[$index].description"
+             data-ng-maxlength="20"
+             maxlength="20"
+             data-ng-minlength="1">
+      <!--<i class="icon ion-alert-circled error"-->
+         <!--data-ng-if="productForm.prod_option_optionIndex_desc_$index.$invalid"></i>-->
+      <!--<i class="icon ion-checkmark-circled success"-->
+         <!--data-ng-if="productForm.prod_option_optionIndex_desc_$index.$valid"></i>-->
+    </label>
+
+    <label class="item item-input item-stacked-label">
+      <span class="input-label">Recargo</span>
+
+      <input type="text" placeholder="Ingrese el recargo para esta opcion. Sera sumado al precio base del producto"
+             name="prod_option_optionIndex_price_$index"
+             data-ng-model="currentProdItems[$index].price"
+             data-ng-maxlength="6"
+             maxlength="6"
+             data-ng-minlength="1">
+      <!--<i class="icon ion-alert-circled error"-->
+      <!--data-ng-if="productForm.prod_option_optionIndex_desc_$index.$invalid"></i>-->
+      <!--<i class="icon ion-checkmark-circled success"-->
+      <!--data-ng-if="productForm.prod_option_optionIndex_desc_$index.$valid"></i>-->
+    </label>
+
+
+  </div>
+
+</div>
+
+<pre>
+  {{ currentProdItems | json }}
+</pre>

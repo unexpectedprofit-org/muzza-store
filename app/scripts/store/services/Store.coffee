@@ -32,6 +32,21 @@ angular.module('MuzzaStore.store').service 'StoreService', () ->
         delivery: 6000
         pickup: 8000
 
+    category: [
+      id:1
+      description:"Bebidas"
+      products: []
+    ,
+      id:2
+      description:"Helados"
+      products: []
+    ,
+      id:3
+      description:"Empanadas"
+      products: []
+
+    ]
+
   retrieveDetails = () ->
     store
 
@@ -39,6 +54,61 @@ angular.module('MuzzaStore.store').service 'StoreService', () ->
     store = _store
 
 
+  saveCategory = (categoryDesc) ->
+    if store['category'] is undefined
+      store['category'] = []
+
+    idCat = store['category'].length + 1
+
+    store['category'].push {id:idCat,description:categoryDesc,products:[]}
+
+    {
+      status: 'ok'
+    }
+
+
+  saveProduct = (product) ->
+
+    categoryToUpdate = _.find store.category, (catElem) ->
+      catElem.id is parseInt product.categoryId
+
+    if categoryToUpdate isnt undefined
+      product.id = categoryToUpdate.products.length + 1
+      categoryToUpdate.products.push product
+
+      response =
+        status: 'ok'
+
+    else
+      response =
+        status: "NOK"
+        error: "no category found"
+
+    response
+
+  retrieveProductCategories = () ->
+    resultsArray = _.map store.category, (category) ->
+      {id:category.id,description:category.description}
+
+    resultsObject = {}
+
+    _.each resultsArray, (elem) ->
+      resultsObject[elem.id] = elem.description
+
+    resultsObject
+
+
+  retrieveProducts = () ->
+    store.category
+
+
 
   getDetails: retrieveDetails
   updateStore: updateStore
+
+
+  #####################
+  addProductCategory: saveCategory
+  addProduct: saveProduct
+  getProductCategories: retrieveProductCategories
+  getProducts: retrieveProducts

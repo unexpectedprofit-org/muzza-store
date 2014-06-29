@@ -1,0 +1,51 @@
+<!--http://jsfiddle.net/Thinkscape/23RPt/-->
+<!--https://github.com/angular/angular.js/issues/1404#issuecomment-30861993-->
+
+
+OPCIONES DEL PRODUCTO
+<button class="button button-block button-royal"
+        data-ng-click="$parent.product.options.push({})">
+  AGREGAR TIPO DE OPCION
+</button>
+
+
+<div data-ng-repeat="option in $parent.product.options">
+
+  <div class="item item-divider">
+    Grupo {{$index + 1}}
+    <a class="button button-icon icon ion-trash-b item-icon-right"
+       data-ng-click="$parent.product.options.splice($index,1)">
+    </a>
+  </div>
+
+  <label class="item item-input">
+    Tipo de Opciones
+    <select name="prod_option_{{$index}}"
+            data-ng-model="$parent.product.options[$index].componentType"
+            data-ng-options="option for option in options">
+    </select>
+  </label>
+
+  <label class="item item-input item-stacked-label">
+    <span class="input-label">Descripcion</span>
+
+    <input type="text" placeholder="Ingrese la descripcion (Ejemplo: Tipo de Pan)"
+           name="prod_option_{{optionIndex}}_desc"
+           data-ng-required="true"
+           data-ng-model="$parent.product.options[$index].description"
+           data-ng-maxlength="20"
+           maxlength="20"
+           data-ng-minlength="1">
+    <!--<i class="icon ion-alert-circled error"-->
+       <!--data-ng-if="productForm.prod_option_optionIndex_desc.$invalid"></i>-->
+    <!--<i class="icon ion-checkmark-circled success"-->
+       <!--data-ng-if="productForm.prod_option_optionIndex_desc.$valid"></i>-->
+  </label>
+
+  <div data-ng-init="$parent.product.options[$index].items = []; currentProdItems = $parent.product.options[$index].items"
+       data-ng-include data-src="'../app/scripts/product/templates/menu-product-add-options-items.html'"></div>
+
+  <br/>
+  <hr/>
+
+</div>
