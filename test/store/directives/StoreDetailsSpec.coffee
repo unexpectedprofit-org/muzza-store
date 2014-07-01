@@ -12,7 +12,7 @@ describe 'StoreDetails directive', ->
         getDetails: () -> null
       null
 
-  element = isolatedScope = $scope = $state = StoreService = goSpy = undefined
+  element = isolatedScope = $scope = $state = StoreService = undefined
 
   beforeEach ->
     inject ($rootScope, $compile, $injector) ->
@@ -20,7 +20,7 @@ describe 'StoreDetails directive', ->
       StoreService = $injector.get 'StoreService'
 
       spyOn(StoreService, 'getDetails').and.callThrough()
-      goSpy = spyOn($state, 'go').and.callThrough()
+
 
       $scope = $rootScope
       element = angular.element('<store-details></store-details>')
@@ -40,7 +40,13 @@ describe 'StoreDetails directive', ->
   describe "edit functionality", ->
 
     it "should call go on state", ->
+      goSpy = spyOn($state, 'go')
       isolatedScope.edit()
       expect(goSpy).toHaveBeenCalled()
+
+    it "should call go on state", ->
+      goHoursSpy = spyOn($state, 'go')
+      isolatedScope.edit('hours')
+      expect(goHoursSpy).toHaveBeenCalled()
 
 

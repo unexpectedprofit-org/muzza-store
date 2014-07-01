@@ -8,5 +8,8 @@ angular.module('MuzzaStore.store').directive 'storeDetails', (StoreService, $sta
 
     $scope.store = StoreService.getDetails()
 
-    $scope.edit = () ->
-      $state.go 'app.store-edit'
+    $scope.edit = (what) ->
+      if what is 'hours'
+        $state.go 'app.store-edit-hours'
+      else
+        $state.go 'app.store-edit'

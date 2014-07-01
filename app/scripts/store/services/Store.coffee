@@ -18,14 +18,14 @@ angular.module('MuzzaStore.store').service 'StoreService', () ->
       other: "1111 2222",
       cel: "15 4444 9999"
 
-    hours:
-      0: [undefined,undefined],
-      1: [{start:"12:00",end:"14:00"},{start:"19:30",end:"03:00"}],
-      2: [{start:"11:30",end:"15:00"},{start:"19:30",end:"22:00"}],
-      3: [{start:"11:30",end:"15:00"},{start:"19:30",end:"22:00"}],
-      4: [{start:"11:30",end:"15:00"},{start:"19:30",end:"01:00"}],
-      5: [{start:"11:30",end:"15:00"},{start:"19:30",end:"02:30"}],
-      6: [undefined,{start:"18:30",end:"23:59"}]
+    displayOpenHours:
+      0: [ ]
+      1: [ ['12:00', '14:00'], ['19:30', '03:00'] ]
+      2: [ ['11:30', '15:00'], ['19:30', '22:00'] ]
+      3: [ ['11:30', '15:00'], ['19:30', '22:00'] ]
+      4: [ ['11:30', '15:00'], ['19:30', '01:00'] ]
+      5: [ ['11:30', '15:00'], ['19:30', '02:30'] ]
+      6: [ ['18:30', '03:00'] ]
 
     order:
       minPrice:
@@ -47,8 +47,50 @@ angular.module('MuzzaStore.store').service 'StoreService', () ->
 
     ]
 
+  getDayName = (dayOfWeek) ->
+
+    switch parseInt dayOfWeek
+      when 0 then return "Domingo"
+      when 1 then return "Lunes"
+      when 2 then return "Martes"
+      when 3 then return "Miercoles"
+      when 4 then return "Jueves"
+      when 5 then return "Viernes"
+      when 6 then return "Sabado"
+
+
+
+  processStoreHours = (displayOpenHours) ->
+
+    storeHoursArray = []
+
+    keys = _.keys displayOpenHours
+
+    _.each keys, (key) ->
+
+      dayHours =
+        day: getDayName key
+        hours: []
+
+      currentDay = displayOpenHours[key]
+
+      _.each currentDay, (currentDayHours) ->
+        dayHours.hours.push currentDayHours[0]
+        dayHours.hours.push currentDayHours[1]
+
+      storeHoursArray.push dayHours
+
+    storeHoursArray
+
+
+
+  constructStoreDetails = (storeElement) ->
+    storeElement.hours = processStoreHours storeElement.displayOpenHours
+    storeElement
+
   retrieveDetails = () ->
-    store
+    constructStoreDetails store
+
 
   updateStore = (_store) ->
     store = _store

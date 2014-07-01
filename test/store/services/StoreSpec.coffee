@@ -18,8 +18,34 @@ describe 'Store Service', ->
   describe "getDetails functionality", ->
 
     it "should retrieve details", ->
+      storeDetails = StoreService.getDetails()
 
-      expect(StoreService.getDetails().name_fantasy).toBe "La pizzeria de Juancho"
+      expectedHours = [
+        day: "Domingo"
+        hours:   [ ]
+      ,
+        day: "Lunes"
+        hours:     [ "12:00", "14:00", "19:30", "03:00" ]
+      ,
+        day: "Martes"
+        hours:    [ "11:30", "15:00", "19:30", "22:00" ]
+      ,
+        day: "Miercoles"
+        hours: [ "11:30", "15:00", "19:30", "22:00" ]
+      ,
+        day: "Jueves"
+        hours:    [ "11:30", "15:00", "19:30", "01:00" ]
+      ,
+        day: "Viernes"
+        hours:   [ "11:30", "15:00", "19:30", "02:30" ]
+      ,
+        day: "Sabado"
+        hours:    [ "18:30", "03:00" ]
+      ]
+
+      expect(storeDetails.name_fantasy).toBe "La pizzeria de Juancho"
+      expect(storeDetails.hours).toEqual expectedHours
+
 
   describe "updateStore functionality", ->
 

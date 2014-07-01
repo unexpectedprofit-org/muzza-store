@@ -12,6 +12,28 @@ Telefonos:
 <div>{{ store.phone.other }}</div>
 <div>{{ store.phone.cel }}</div>
 
+</hr>
+Horarios:
+
+<div data-ng-repeat="currentDayHours in store.hours"
+     class="list">
+
+  {{ currentDayHours.day }}:
+  <span data-ng-if="currentDayHours.hours.length == 0">Cerrado</span>
+
+  <span data-ng-repeat="hour in currentDayHours.hours">
+    <span data-ng-if="$index == 2"> / </span>
+    <span data-ng-if="$index == 1 || $index == 3"> - </span>
+    {{ hour | date: 'HH:mm'}}
+  </span>
+
+</div>
+
+
+
 <button class="button button-block button-positive" data-ng-click="edit()">
-  Actualizar
+  Actualizar Datos de contacto
+</button>
+<button class="button button-block button-positive" data-ng-click="edit('hours')">
+  Actualizar Horarios
 </button>

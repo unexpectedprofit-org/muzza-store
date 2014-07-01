@@ -1,0 +1,77 @@
+<ion-view title="Editar Horarios de Local">
+
+  <ion-nav-buttons side="left">
+    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+  </ion-nav-buttons>
+
+  <ion-content class="has-header">
+
+    <div class="list">
+
+      <form name="storeEditForm" novalidate>
+
+        <div class="list"
+             data-ng-repeat="currentDayHours in store.hours">
+
+          {{ currentDayHours.day }}:
+          <br/>
+
+          <ion-checkbox ng-model="day_$index_timeframe1">Timeframe1</ion-checkbox>
+          <div data-ng-show="day_$index_timeframe1">
+            start:
+            <label class="item item-input">
+              <input type="time"
+                     name="day_$index_hour_0"
+                     ng-model="currentDayHours.hours[0]"
+                     placeholder="HH:mm" required />
+            </label>
+            --- end:
+            <label class="item item-input">
+              <input type="time"
+                     name="day_$index_hour_1"
+                     ng-model="currentDayHours.hours[1]"
+                     placeholder="HH:mm" required />
+            </label>
+          </div>
+
+
+          <ion-checkbox ng-model="day_$index_timeframe2">Timeframe2</ion-checkbox>
+          <div data-ng-show="day_$index_timeframe2">
+            <br/>
+            start:
+            <label class="item item-input">
+              <input type="time"
+                     name="day_$index_hour_2"
+                     ng-model="currentDayHours.hours[2]"
+                     placeholder="HH:mm" required />
+            </label>
+            --- end:
+            <label class="item item-input">
+              <input type="time"
+                     name="day_$index_hour_3"
+                     ng-model="currentDayHours.hours[3]"
+                     placeholder="HH:mm" required />
+            </label>
+          </div>
+
+        </div>
+
+
+        <button class="button button-full button-positive"
+                data-ng-disabled="storeEditForm.$invalid"
+                data-ng-click="save(store)">
+          Guardar
+        </button>
+
+        <button class="button button-full button-royal" data-ng-click="cancel()">
+      Cancelar
+    </button>
+
+    </form>
+
+    </div>
+
+
+  </ion-content>
+
+</ion-view>
