@@ -20,15 +20,17 @@
         Grupo de Opciones
         <div data-ng-repeat="option in product.options">
 
-          {{ option.description}} - {{ option.config.component }}
+          GRUPO OPCION {{$index + 1}}: {{ option.description}} - {{ option.config.component }}
 
-          <pre>
-            {{ option.items | json }}
-          </pre>
+          <div data-ng-repeat="item in option.items">
+            Opcion: {{ item.description }} - Recargo $ {{ item.price }}
+          </div>
+
+          <br/>
 
         </div>
 
-        <hr/>
+        <br/><br/>
 
       </div>
 
