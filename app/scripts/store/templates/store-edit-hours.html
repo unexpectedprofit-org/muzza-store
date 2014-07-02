@@ -14,41 +14,59 @@
              data-ng-repeat="currentDayHours in store.hours">
 
           {{ currentDayHours.day }}:
-          <br/>
+          <br />
 
-          <ion-checkbox ng-model="day_$index_timeframe1">Timeframe1</ion-checkbox>
+          <li class="item item-checkbox">
+            <label class="checkbox">
+              <input type="checkbox"
+                     data-ng-init="day_$index_timeframe1 = currentDayHours.hours.length > 0"
+                     data-ng-model="day_$index_timeframe1">
+            </label>
+            Timeframe1
+          </li>
+
           <div data-ng-show="day_$index_timeframe1">
-            start:
             <label class="item item-input">
+              <span class="input-label">Abre:</span>
               <input type="time"
-                     name="day_$index_hour_0"
+                     name="day_{{$index}}_hour_0"
                      ng-model="currentDayHours.hours[0]"
                      placeholder="HH:mm" required />
             </label>
-            --- end:
+
             <label class="item item-input">
+              <span class="input-label">Cierra:</span>
               <input type="time"
-                     name="day_$index_hour_1"
+                     name="day_{{$index}}_hour_1"
                      ng-model="currentDayHours.hours[1]"
                      placeholder="HH:mm" required />
             </label>
           </div>
 
 
-          <ion-checkbox ng-model="day_$index_timeframe2">Timeframe2</ion-checkbox>
+
+          <li class="item item-checkbox">
+            <label class="checkbox">
+              <input type="checkbox"
+                     data-ng-init="day_$index_timeframe2 = currentDayHours.hours.length > 2"
+                     data-ng-model="day_$index_timeframe2">
+            </label>
+            Timeframe2
+          </li>
+
           <div data-ng-show="day_$index_timeframe2">
-            <br/>
-            start:
             <label class="item item-input">
+              <span class="input-label">Abre:</span>
               <input type="time"
-                     name="day_$index_hour_2"
+                     name="day_{{$index}}_hour_2"
                      ng-model="currentDayHours.hours[2]"
                      placeholder="HH:mm" required />
             </label>
-            --- end:
+
             <label class="item item-input">
+              <span class="input-label">Cierra:</span>
               <input type="time"
-                     name="day_$index_hour_3"
+                     name="day_{{$index}}_hour_3"
                      ng-model="currentDayHours.hours[3]"
                      placeholder="HH:mm" required />
             </label>
