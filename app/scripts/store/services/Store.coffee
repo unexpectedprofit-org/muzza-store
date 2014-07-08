@@ -14,9 +14,9 @@ angular.module('MuzzaStore.store').service 'StoreService', () ->
       state: "Buenos Aires"
 
     phone:
-      main: "4444 5555",
-      other: "1111 2222",
-      cel: "15 4444 9999"
+      main: "44445555",
+      other: "11112222",
+      cel: "1544449999"
 
     displayOpenHours:
       0: [ ]
