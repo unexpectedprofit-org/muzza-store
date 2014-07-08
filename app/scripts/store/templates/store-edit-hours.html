@@ -19,19 +19,19 @@
           <li class="item item-checkbox">
             <label class="checkbox">
               <input type="checkbox"
-                     data-ng-init="day_$index_timeframe1 = currentDayHours.hours.length > 0"
-                     data-ng-model="day_$index_timeframe1">
+                     data-ng-model="days[$index].timeframe1">
             </label>
             Timeframe1
           </li>
 
-          <div data-ng-show="day_$index_timeframe1">
+          <div data-ng-show="days[$index].timeframe1">
             <label class="item item-input">
               <span class="input-label">Abre:</span>
               <input type="time"
                      name="day_{{$index}}_hour_0"
                      ng-model="currentDayHours.hours[0]"
-                     placeholder="HH:mm" required />
+                     placeholder="HH:mm"
+                     data-ng-required="days[$index].timeframe1" />
             </label>
 
             <label class="item item-input">
@@ -39,7 +39,8 @@
               <input type="time"
                      name="day_{{$index}}_hour_1"
                      ng-model="currentDayHours.hours[1]"
-                     placeholder="HH:mm" required />
+                     placeholder="HH:mm"
+                     data-ng-required="days[$index].timeframe1" />
             </label>
           </div>
 
@@ -48,19 +49,19 @@
           <li class="item item-checkbox">
             <label class="checkbox">
               <input type="checkbox"
-                     data-ng-init="day_$index_timeframe2 = currentDayHours.hours.length > 2"
-                     data-ng-model="day_$index_timeframe2">
+                     data-ng-model="days[$index].timeframe2">
             </label>
             Timeframe2
           </li>
 
-          <div data-ng-show="day_$index_timeframe2">
+          <div data-ng-show="days[$index].timeframe2">
             <label class="item item-input">
               <span class="input-label">Abre:</span>
               <input type="time"
                      name="day_{{$index}}_hour_2"
                      ng-model="currentDayHours.hours[2]"
-                     placeholder="HH:mm" required />
+                     placeholder="HH:mm"
+                     data-ng-required="days[$index].timeframe2" />
             </label>
 
             <label class="item item-input">
@@ -68,7 +69,8 @@
               <input type="time"
                      name="day_{{$index}}_hour_3"
                      ng-model="currentDayHours.hours[3]"
-                     placeholder="HH:mm" required />
+                     placeholder="HH:mm"
+                     data-ng-required="days[$index].timeframe2" />
             </label>
           </div>
 
@@ -77,7 +79,7 @@
 
         <button class="button button-full button-positive"
                 data-ng-disabled="storeEditForm.$invalid"
-                data-ng-click="save(store)">
+                data-ng-click="save(store,days)">
           Guardar
         </button>
 
