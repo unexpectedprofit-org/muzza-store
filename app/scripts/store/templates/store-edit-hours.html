@@ -1,4 +1,4 @@
-<ion-view title="Editar Horarios de Local">
+<ion-view title="Editar Horarios">
 
   <ion-nav-buttons side="left">
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
@@ -21,7 +21,7 @@
               <input type="checkbox"
                      data-ng-model="days[$index].timeframe1">
             </label>
-            Timeframe1
+            Mediodia
           </li>
 
           <div data-ng-show="days[$index].timeframe1">
@@ -51,7 +51,7 @@
               <input type="checkbox"
                      data-ng-model="days[$index].timeframe2">
             </label>
-            Timeframe2
+            Noche
           </li>
 
           <div data-ng-show="days[$index].timeframe2">
@@ -84,8 +84,8 @@
         </button>
 
         <button class="button button-full button-royal" data-ng-click="cancel()">
-      Cancelar
-    </button>
+          Cancelar
+        </button>
 
     </form>
 
