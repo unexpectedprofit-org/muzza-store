@@ -53,7 +53,7 @@ describe "Category Add Controller", ->
       expect(pristineSpy).toHaveBeenCalled()
 
     it "should handle error response", ->
-      spyOn(StoreService, 'addProductCategory').and.callFake( () -> {status:'NOK'})
+      spyOn(StoreService, 'addProductCategory').and.callFake( () -> {error:''})
       createController {}
       scope.addCategory "my_category"
 

@@ -9,7 +9,7 @@ angular.module('MuzzaStore.store').controller 'StoreEditCtrl', ($scope, StoreSer
     days
 
 
-  myStore = StoreService.getDetails()
+  myStore = StoreService.getDetails().data
 
   $scope.store = myStore
   $scope.days = generateTimeframeFlags myStore.displayOpenHours

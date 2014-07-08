@@ -2,12 +2,20 @@ describe 'Store Service', ->
 
   beforeEach ->
     module 'MuzzaStore.store'
+    module ($provide) ->
+      $provide.value 'StoreFirebaseAdapter',
+        getStore: () -> {success:true,data:{}}
+        updateStore: () -> {success:true,data:{}}
+        addProduct: () -> {success:true,data:{}}
+        addCategory: () -> {success:true,data:{}}
+      null
 
-  StoreService = undefined
+  StoreService = StoreFirebaseAdapter = undefined
 
   beforeEach ->
     inject ($injector) ->
       StoreService = $injector.get 'StoreService'
+      StoreFirebaseAdapter = $injector.get 'StoreFirebaseAdapter'
 
   describe 'init', ->
 
@@ -15,10 +23,28 @@ describe 'Store Service', ->
 
       expect(StoreService.getDetails).toBeDefined()
 
+
   describe "getDetails functionality", ->
 
-    it "should retrieve details", ->
-      storeDetails = StoreService.getDetails()
+    it "should call adapter", ->
+      getStoreSpy = spyOn(StoreFirebaseAdapter, 'getStore').and.callThrough()
+      StoreService.getDetails()
+
+      expect(getStoreSpy).toHaveBeenCalled()
+
+    it "should construct hours field", ->
+      fakeStore =
+        displayOpenHours:
+          0: [ ]
+          1: [ ['12:00', '14:00'], ['19:30', '03:00'] ]
+          2: [ ['11:30', '15:00'], ['19:30', '22:00'] ]
+          3: [ ['11:30', '15:00'], ['19:30', '22:00'] ]
+          4: [ ['11:30', '15:00'], ['19:30', '01:00'] ]
+          5: [ ['11:30', '15:00'], ['19:30', '02:30'] ]
+          6: [ ['18:30', '03:00'] ]
+
+      spyOn(StoreFirebaseAdapter, 'getStore').and.callFake( () -> {success:true,data:fakeStore} )
+      response = StoreService.getDetails()
 
       expectedHours = [
         day: "Domingo"
@@ -43,162 +69,129 @@ describe 'Store Service', ->
         hours:    [ "18:30", "03:00" ]
       ]
 
-      expect(storeDetails.name_fantasy).toBe "La pizzeria de Juancho"
-      expect(storeDetails.hours).toEqual expectedHours
+      expect(response.data.hours).toEqual expectedHours
 
 
   describe "updateStore functionality", ->
 
-    it "should update the store info", ->
+    it "should call adapter", ->
+      updateStoreSpy = spyOn(StoreFirebaseAdapter, 'updateStore').and.callThrough()
+      StoreService.updateStore()
 
-      store1 = angular.copy StoreService.getDetails()
-
-      store1.name_fantasy = "My new fantasy name"
-
-      StoreService.updateStore store1
-
-      expect(StoreService.getDetails().name_fantasy).toBe 'My new fantasy name'
-
-  describe "addProductCategory", ->
-
-    it "should update the store object with the new category - first category", ->
-
-      storedetails = StoreService.getDetails()
-      storedetails.category = undefined
-
-      response = StoreService.addProductCategory "my_category"
-
-      expect(response.status).toBe 'ok'
-      expect(StoreService.getDetails().category[0].id).toBe 1
-      expect(StoreService.getDetails().category[0].description).toBe 'my_category'
+      expect(updateStoreSpy).toHaveBeenCalled()
 
 
-    it "should update the store object with the new category - some previous category stored", ->
+  describe "addProductCategory functionality", ->
 
-      storedetails = StoreService.getDetails()
-      storedetails['category'] = [
-        id:1
-        description:"First Category"
-      ]
+    it "should call the adapter", ->
+      addCategorySpy = spyOn(StoreFirebaseAdapter, 'addCategory').and.callThrough()
+      StoreService.addProductCategory ""
 
-      response = StoreService.addProductCategory "my_other_category"
-
-      expect(response.status).toBe 'ok'
-      expect(StoreService.getDetails().category[1].id).toBe 2
-      expect(StoreService.getDetails().category[1].description).toBe 'my_other_category'
-
-    it "should not store the category if already stored", ->
-      response = StoreService.addProductCategory "bebidas"
-
-      expect(response.status).toBe 'NOK'
-      expect(response.msg).toBe 'CATEGORY_ALREADY_REGISTERED'
-
-      response = StoreService.addProductCategory "BEBIDAS"
-
-      expect(response.status).toBe 'NOK'
-      expect(response.msg).toBe 'CATEGORY_ALREADY_REGISTERED'
-
-      response = StoreService.addProductCategory "BeBIdAs"
-
-      expect(response.status).toBe 'NOK'
-      expect(response.msg).toBe 'CATEGORY_ALREADY_REGISTERED'
+      expect(addCategorySpy).toHaveBeenCalled()
 
 
   describe "addProduct functionality", ->
 
-    it "should update the store object with the new product - first product", ->
-      storedetails = StoreService.getDetails()
-      storedetails['category'] = [
-        id:1
-        description:"First Category"
-        products: []
-      ]
+    it "should call the adapter", ->
+      getStoreSpy = spyOn(StoreFirebaseAdapter, 'getStore').and.callThrough()
+      StoreService.addProduct()
+
+      expect(getStoreSpy).toHaveBeenCalled()
+
+
+    it "should call the adapter - first product", ->
+      fakeStore =
+        category: [
+          id:1
+          description:"First Category"
+          products: []
+        ]
+
+      spyOn(StoreFirebaseAdapter, 'getStore').and.callFake( () -> fakeStore )
+      addProductSpy = spyOn(StoreFirebaseAdapter, 'addProduct').and.callThrough()
 
       product =
         description:"my_product"
-        categoryId: storedetails['category'][0].id
+        categoryId: fakeStore.category[0].id
 
-      response = StoreService.addProduct product
+      StoreService.addProduct product
 
-      expect(response.status).toBe 'ok'
-      expect(StoreService.getDetails().category[0].products.length).toBe 1
-      expect(StoreService.getDetails().category[0].products[0]).toEqual product
+      expect(addProductSpy).toHaveBeenCalled()
 
 
-    it "should update the store object with the new product - some previous products stored", ->
-      storedetails = StoreService.getDetails()
-      storedetails['category'] = [
-        id:1
-        description:"First Category"
-        products: [{id:1,description:"holahola"}]
-      ]
+    it "should NOT call the adapter to add product if no category found", ->
+      fakeStore =
+        category: [
+          id:1
+          description:"First Category"
+          products: [{id:1,description:"holahola"}]
+        ]
 
-      product =
-        description:"my_new_product"
-        categoryId: storedetails['category'][0].id
-
-      response = StoreService.addProduct product
-
-      expect(response.status).toBe 'ok'
-      expect(StoreService.getDetails().category[0].products.length).toBe 2
-      expect(StoreService.getDetails().category[0].products[1]).toEqual product
-
-    it "should NOT update the store object with the new product if no catgory found", ->
-      storedetails = StoreService.getDetails()
-      storedetails['category'] = [
-        id:1
-        description:"First Category"
-        products: [{id:1,description:"holahola"}]
-      ]
+      spyOn(StoreFirebaseAdapter, 'getStore').and.callFake( () -> fakeStore )
+      addProductSpy = spyOn(StoreFirebaseAdapter, 'addProduct').and.callThrough()
 
       product =
         description:"my_new_product"
         categoryId: 9
 
-      response = StoreService.addProduct product
+      StoreService.addProduct product
 
-      expect(response.status).toBe 'NOK'
-      expect(StoreService.getDetails().category[0].products.length).toBe 1
+      expect(addProductSpy).not.toHaveBeenCalled()
 
 
-    it "should not store the product if already stored", ->
+    it "should NOT call the adapter if already stored", ->
       product =
         description: "my_product"
         categoryId: 1
 
-      #set up product
+      addProductSpy = spyOn(StoreFirebaseAdapter, 'addProduct').and.callThrough()
+
       StoreService.addProduct product
 
-
-      response = StoreService.addProduct product
-      expect(response.status).toBe 'NOK'
-      expect(response.msg).toBe 'PRODUCT_ALREADY_REGISTERED'
-
-      product =
-        description: "MY_PRODUCT"
-        categoryId: 2
-      response = StoreService.addProduct product
-      expect(response.status).toBe 'NOK'
-      expect(response.msg).toBe 'PRODUCT_ALREADY_REGISTERED'
-
-      product =
-        description: "My_pROdUcT"
-        categoryId: 3
-      response = StoreService.addProduct product
-      expect(response.status).toBe 'NOK'
-      expect(response.msg).toBe 'PRODUCT_ALREADY_REGISTERED'
+      expect(addProductSpy).not.toHaveBeenCalled()
 
 
   describe "getProductCategories functionality", ->
 
-    it "should get an array of product categories containing only id/description fields", ->
-      storedetails = StoreService.getDetails()
-      storedetails['category'] = [
-        id:1
-        description:"First Category"
-        products: []
-      ]
+    it "should call the adapter", ->
+      getStoreSpy = spyOn(StoreFirebaseAdapter, 'getStore').and.callThrough()
+      StoreService.getDetails()
 
+      expect(getStoreSpy).toHaveBeenCalled()
+
+
+    it "should get an array of product categories containing only id/description fields", ->
+      fakeStore =
+        category: [
+          id:1
+          description:"First Category"
+          products: []
+        ]
+
+      spyOn(StoreFirebaseAdapter, 'getStore').and.callFake( () -> {success:true,data:fakeStore} )
       response = StoreService.getProductCategories()
 
       expect(response["1"]).toEqual 'First Category'
+
+
+  describe "getProducts functionality", ->
+
+    it "should call adapter", ->
+      getStoreSpy = spyOn(StoreFirebaseAdapter, 'getStore').and.callThrough()
+      StoreService.getProducts()
+
+      expect(getStoreSpy).toHaveBeenCalled()
+
+    it "should return the catories array of the store", ->
+      fakeStore =
+        category: [
+          id:1
+          description:"My Category 1"
+        ,
+          id:2
+          description:"My Category 2"
+        ]
+      spyOn(StoreFirebaseAdapter, 'getStore').and.callFake( () -> {success:true,data:fakeStore } )
+      response = StoreService.getProducts()
+
+      expect(response.data).toEqual fakeStore.category

@@ -3,7 +3,7 @@ angular.module('MuzzaStore.product').controller 'CategoryAddCtrl', ($scope, Stor
   $scope.addCategory = (categoryDesc) ->
     $scope.response = StoreService.addProductCategory categoryDesc
 
-    if $scope.response.status is 'ok'
+    if $scope.response.error is undefined
 
       $scope.response.msg = "La categoria '" + categoryDesc + "' ha sido creada con exito!"
       $scope.category = ''

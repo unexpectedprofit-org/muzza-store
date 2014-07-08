@@ -1,51 +1,4 @@
-angular.module('MuzzaStore.store').service 'StoreService', () ->
-
-  store =
-    id: 1,
-    name_real: "Juancho S.R.L.",
-    name_fantasy: "La pizzeria de Juancho",
-
-    address:
-      street: "Av. Rivadavia",
-      door: 5100,
-      zip: "1406",
-      hood: "Caballito",
-      area: "Capital Federal",
-      state: "Buenos Aires"
-
-    phone:
-      main: "44445555",
-      other: "11112222",
-      cel: "1544449999"
-
-    displayOpenHours:
-      0: [ ]
-      1: [ ['12:00', '14:00'], ['19:30', '03:00'] ]
-      2: [ ['11:30', '15:00'], ['19:30', '22:00'] ]
-      3: [ ['11:30', '15:00'], ['19:30', '22:00'] ]
-      4: [ ['11:30', '15:00'], ['19:30', '01:00'] ]
-      5: [ ['11:30', '15:00'], ['19:30', '02:30'] ]
-      6: [ ['18:30', '03:00'] ]
-
-    order:
-      minPrice:
-        delivery: 6000
-        pickup: 8000
-
-    category: [
-      id:1
-      description:"Bebidas"
-      products: []
-    ,
-      id:2
-      description:"Helados"
-      products: []
-    ,
-      id:3
-      description:"Empanadas"
-      products: []
-
-    ]
+angular.module('MuzzaStore.store').service 'StoreService', (StoreFirebaseAdapter) ->
 
   getDayName = (dayOfWeek) ->
 
@@ -57,8 +10,6 @@ angular.module('MuzzaStore.store').service 'StoreService', () ->
       when 4 then return "Jueves"
       when 5 then return "Viernes"
       when 6 then return "Sabado"
-
-
 
   processStoreHours = (displayOpenHours) ->
 
@@ -82,42 +33,65 @@ angular.module('MuzzaStore.store').service 'StoreService', () ->
 
     storeHoursArray
 
-
-
   constructStoreDetails = (storeElement) ->
     storeElement.hours = processStoreHours storeElement.displayOpenHours
     storeElement
 
-  retrieveDetails = () ->
-    constructStoreDetails store
 
+
+  class RetrieveDetailsResponse
+    constructor: (response) ->
+      if response.success
+        @data = constructStoreDetails response.data
+      else
+        console.log "ERROR - RetrieveDetailsResponse: " + response.error
+        @error = response.error
+
+
+  class UpdateStoreResponse
+    constructor: (response) ->
+      if response.success
+        @data = response.data
+      else
+        console.log "ERROR - UpdateStoreResponse: " + response.error
+        @error = response.error
+
+
+  class SaveProductCategoryResponse
+    constructor: (response) ->
+      if response.success
+        @data = response.data
+      else
+        console.log "ERROR - SaveProductCategoryResponse: " + response.error
+        @error = response.error
+
+
+
+  class RetrieveProductsResponse
+    constructor: (response) ->
+      if response.success
+        @data = response.data.category
+      else
+        console.log "ERROR - RetrieveProductsResponse: " + response.error
+        @error = response.error
+
+
+
+  retrieveDetails = () ->
+    new RetrieveDetailsResponse StoreFirebaseAdapter.getStore()
 
   updateStore = (_store) ->
-    store = _store
+    new UpdateStoreResponse StoreFirebaseAdapter.updateStore _store
 
+  saveProductCategory = (categoryDesc) ->
+    new SaveProductCategoryResponse StoreFirebaseAdapter.addCategory categoryDesc.toUpperCase()
 
-  saveCategory = (categoryDesc) ->
-    if store['category'] is undefined
-      store['category'] = []
-
-    elementFound = _.find store['category'], (elem) ->
-      elem.description.toUpperCase() is categoryDesc.toUpperCase()
-
-    if elementFound is undefined
-      idCat = store['category'].length + 1
-      store['category'].push {id:idCat,description:categoryDesc,products:[]}
-      {
-        status: 'ok'
-      }
-    else
-      {
-        status: 'NOK'
-        msg: 'CATEGORY_ALREADY_REGISTERED'
-      }
 
 
 
   saveProduct = (product) ->
+
+    store = StoreFirebaseAdapter.getStore()
 
     categoryToUpdate = _.find store.category, (catElem) ->
       catElem.id is parseInt product.categoryId
@@ -137,8 +111,7 @@ angular.module('MuzzaStore.store').service 'StoreService', () ->
             found = true
 
       if productFound is undefined
-        product.id = categoryToUpdate.products.length + 1
-        categoryToUpdate.products.push product
+        StoreFirebaseAdapter.addProduct()
 
         response =
           status: 'ok'
@@ -155,19 +128,24 @@ angular.module('MuzzaStore.store').service 'StoreService', () ->
     response
 
   retrieveProductCategories = () ->
-    resultsArray = _.map store.category, (category) ->
-      {id:category.id,description:category.description}
+    store = StoreFirebaseAdapter.getStore()
 
-    resultsObject = {}
+    if store.success
+      resultsArray = _.map store.data.category, (category) ->
+        {id:category.id,description:category.description}
 
-    _.each resultsArray, (elem) ->
-      resultsObject[elem.id] = elem.description
+      resultsObject = {}
 
-    resultsObject
+      _.each resultsArray, (elem) ->
+        resultsObject[elem.id] = elem.description
+
+      resultsObject
+    else
+      {}
 
 
   retrieveProducts = () ->
-    store.category
+    new RetrieveProductsResponse StoreFirebaseAdapter.getStore()
 
 
 
@@ -176,7 +154,7 @@ angular.module('MuzzaStore.store').service 'StoreService', () ->
 
 
   #####################
-  addProductCategory: saveCategory
+  addProductCategory: saveProductCategory
   addProduct: saveProduct
   getProductCategories: retrieveProductCategories
   getProducts: retrieveProducts

@@ -9,7 +9,7 @@ describe 'StoreDetails directive', ->
         go: () -> null
 
       $provide.value 'StoreService',
-        getDetails: () -> null
+        getDetails: () -> {data:{}}
       null
 
   element = isolatedScope = $scope = $state = StoreService = undefined

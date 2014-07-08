@@ -10,8 +10,8 @@ describe "Product Add Controller", ->
   beforeEach ->
     module ($provide) ->
       $provide.value 'StoreService',
-        addProduct: () -> {status:'ok'}
-        getProductCategories: () -> []
+        addProduct: () -> {success:true}
+        getProductCategories: () -> {}
       null
 
   beforeEach ->
@@ -64,7 +64,7 @@ describe "Product Add Controller", ->
       expect(pristineSpy).toHaveBeenCalled()
 
     it "should handle error response", ->
-      spyOn(StoreService, 'addProduct').and.callFake( () -> {status:'NOK'})
+      spyOn(StoreService, 'addProduct').and.callFake( () -> {error:''})
       createController {}
       scope.product =
         id:1
@@ -81,4 +81,4 @@ describe "Product Add Controller", ->
       createController {}
 
       expect(getSpy).toHaveBeenCalled()
-      expect(scope.categories).toEqual []
+      expect(scope.categories).toEqual {}
