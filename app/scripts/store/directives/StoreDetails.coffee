@@ -6,7 +6,8 @@ angular.module('MuzzaStore.store').directive 'storeDetails', (StoreService, $sta
 
   link: ($scope, ele, attrs, ctrl) ->
 
-    $scope.store = StoreService.getDetails().data
+    $scope.branches = StoreService.getBranches().data
+    console.log $scope.store
 
     $scope.edit = (what) ->
       if what is 'hours'

@@ -9,80 +9,12 @@ describe 'Store Firebase Adapter', ->
     inject ($injector) ->
       StoreFirebaseAdapter = $injector.get 'StoreFirebaseAdapter'
 
-  describe "getStore functionality", ->
-
-    it "should retrieve store", ->
-      response = StoreFirebaseAdapter.getStore()
-
-      expectedStore =
-        id: 1,
-        name_real: "Juancho S.R.L.",
-        name_fantasy: "La pizzeria de Juancho",
-
-        address:
-          street: "Av. Rivadavia",
-          door: 5100,
-          zip: "1406",
-          hood: "Caballito",
-          area: "Capital Federal",
-          state: "Buenos Aires"
-
-        phone:
-          main: "44445555",
-          other: "11112222",
-          cel: "1544449999"
-
-        displayOpenHours:
-          0: [ ]
-          1: [ ['12:00', '14:00'], ['19:30', '03:00'] ]
-          2: [ ['11:30', '15:00'], ['19:30', '22:00'] ]
-          3: [ ['11:30', '15:00'], ['19:30', '22:00'] ]
-          4: [ ['11:30', '15:00'], ['19:30', '01:00'] ]
-          5: [ ['11:30', '15:00'], ['19:30', '02:30'] ]
-          6: [ ['18:30', '03:00'] ]
-
-        order:
-          minPrice:
-            delivery: 6000
-            pickup: 8000
-
-        category: [
-          id:1
-          description:"Bebidas"
-          products: []
-        ,
-          id:2
-          description:"Helados"
-          products: []
-        ,
-          id:3
-          description:"Empanadas"
-          products: []
-
-        ]
-
-      expect(response.success).toBeTruthy()
-      expect(response.data).toEqual expectedStore
-
-
-  describe "updateStore functionality", ->
-
-    it "should update the store info", ->
-      store1 = angular.copy StoreFirebaseAdapter.getStore()
-      store1.name_fantasy = "My new fantasy name"
-      StoreFirebaseAdapter.updateStore store1
-
-      response = StoreFirebaseAdapter.getStore()
-
-      expect(response.success).toBeTruthy()
-      expect(response.data.name_fantasy).toBe 'My new fantasy name'
-
 
   describe "addCategory functionality", ->
 
     it "should update the store object with the new category - first category", ->
 
-      storedetails = StoreFirebaseAdapter.getStore()
+      storedetails = StoreFirebaseAdapter.getProducts().data
       storedetails.category = undefined
 
       response = StoreFirebaseAdapter.addCategory "my_category"
@@ -93,7 +25,7 @@ describe 'Store Firebase Adapter', ->
 
     it "should update the store object with the new category - some previous category stored", ->
 
-      storedetails = StoreFirebaseAdapter.getStore()
+      storedetails = StoreFirebaseAdapter.getProducts().data
       storedetails['category'] = [
         id:1
         description:"First Category"
@@ -101,7 +33,7 @@ describe 'Store Firebase Adapter', ->
 
       response = StoreFirebaseAdapter.addCategory "my_other_category"
 
-      storedetails = StoreFirebaseAdapter.getStore()
+      storedetails = StoreFirebaseAdapter.getProducts()
 
       expect(response.success).toBeTruthy()
       expect(response.data).toBe "my_other_category"
@@ -126,8 +58,8 @@ describe 'Store Firebase Adapter', ->
   describe "addProduct functionality", ->
 
     it "should update the store object with the new product - first product", ->
-      storedetails = StoreFirebaseAdapter.getStore()
-      storedetails['category'] = [
+      storedetails = StoreFirebaseAdapter.getProducts().data
+      storedetails.categories = [
         id:1
         description:"First Category"
         products: []
@@ -135,7 +67,7 @@ describe 'Store Firebase Adapter', ->
 
       product =
         description:"my_product"
-        categoryId: storedetails['category'][0].id
+        categoryId: storedetails.categories[0].id
 
       response = StoreFirebaseAdapter.addProduct product
 
@@ -144,7 +76,7 @@ describe 'Store Firebase Adapter', ->
 
 
     it "should update the store object with the new product - some previous products stored", ->
-      storedetails = StoreFirebaseAdapter.getStore()
+      storedetails = StoreFirebaseAdapter.getProducts().data
       storedetails['category'] = [
         id:1
         description:"First Category"
@@ -159,3 +91,26 @@ describe 'Store Firebase Adapter', ->
 
       expect(response.success).toBeTruthy()
       expect(response.data).toEqual product.description
+
+
+  describe "getBranches functionality", ->
+
+    it "should return a success response", ->
+      response = StoreFirebaseAdapter.getBranches()
+
+      expect(response.success).toBeTruthy()
+      expect(response.data.length).toBe 2
+      expect(response.data[0].name_fantasy).toBe "Juancho Caballito"
+      expect(response.data[1].name_fantasy).toBe "Juancho Boedo II"
+
+
+  describe "getProducts functionality", ->
+
+    it "should return a success response", ->
+      response = StoreFirebaseAdapter.getProducts()
+
+      expect(response.success).toBeTruthy()
+      expect(response.data.length).toBe 3
+      expect(response.data[0].description).toBe "Bebidas"
+      expect(response.data[1].description).toBe "Helados"
+      expect(response.data[2].description).toBe "Empanadas"

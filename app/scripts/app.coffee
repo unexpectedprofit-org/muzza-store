@@ -49,7 +49,7 @@ angular.module("MuzzaStore").config ($stateProvider, $urlRouterProvider) ->
         controller: "ProductListCtrl"
 
   .state "app.store-details",
-    url: "/store/details"
+    url: "/branches"
     views:
       navContent:
         templateUrl: "../app/scripts/store/templates/store-details-view.html"

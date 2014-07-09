@@ -1,39 +1,45 @@
-<div>{{ store.name_real}}</div>
-<div>{{ store.name_fantasy }}</div>
+<div>{{ store.id }}</div>
+<div>{{ store.name }}</div>
+        
+<div data-ng-repeat="branch in branches">
 
-</hr>
-Address:
-<div>{{ store.address.street }} {{ store.address.door }}</div>
-<div>{{ store.address.area }} - ({{ store.address.hood }}) - {{ store.address.state }}</div>
+  Nombre:<div>{{ branch.name_fantasy }}</div>
 
-</hr>
-Telefonos:
-<div>{{ store.phone.main }}</div>
-<div>{{ store.phone.other }}</div>
-<div>{{ store.phone.cel }}</div>
+  Address:
+  <div>{{ branch.address.street }} {{ branch.address.door }}</div>
+  <div>{{ branch.address.area }} - ({{ branch.address.hood }}) - {{ branch.address.state }}</div>
 
-</hr>
-Horarios:
+  </hr>
+  Telefonos:
+  <div>{{ branch.phone.main }}</div>
+  <div>{{ branch.phone.other }}</div>
+  <div>{{ branch.phone.cel }}</div>
 
-<div data-ng-repeat="currentDayHours in store.hours"
-     class="list">
+  </hr>
+  Horarios:
 
-  {{ currentDayHours.day }}:
-  <span data-ng-if="currentDayHours.hours.length == 0">Cerrado</span>
+  <div data-ng-repeat="currentDayHours in branch.hours"
+       class="list">
 
-  <span data-ng-repeat="hour in currentDayHours.hours">
-    <span data-ng-if="$index == 2"> / </span>
-    <span data-ng-if="$index == 1 || $index == 3"> - </span>
-    {{ hour | date: 'HH:mm'}}
-  </span>
+    {{ currentDayHours.day }}:
+    <span data-ng-if="currentDayHours.hours.length == 0">Cerrado</span>
+
+    <span data-ng-repeat="hour in currentDayHours.hours">
+      <span data-ng-if="$index == 2"> / </span>
+      <span data-ng-if="$index == 1 || $index == 3"> - </span>
+      {{ hour | date: 'HH:mm'}}
+    </span>
+
+  </div>
+
+  <button class="button button-block button-positive" data-ng-click="edit()">
+    Actualizar Datos de contacto
+  </button>
+  <button class="button button-block button-positive" data-ng-click="edit('hours')">
+    Actualizar Horarios
+  </button>
+
+  </hr>
+  </hr>
 
 </div>
-
-
-
-<button class="button button-block button-positive" data-ng-click="edit()">
-  Actualizar Datos de contacto
-</button>
-<button class="button button-block button-positive" data-ng-click="edit('hours')">
-  Actualizar Horarios
-</button>

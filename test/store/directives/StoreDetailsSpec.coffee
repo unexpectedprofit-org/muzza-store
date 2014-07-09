@@ -9,7 +9,7 @@ describe 'StoreDetails directive', ->
         go: () -> null
 
       $provide.value 'StoreService',
-        getDetails: () -> {data:{}}
+        getBranches: () -> {data:{}}
       null
 
   element = isolatedScope = $scope = $state = StoreService = undefined
@@ -19,7 +19,7 @@ describe 'StoreDetails directive', ->
       $state = $injector.get '$state'
       StoreService = $injector.get 'StoreService'
 
-      spyOn(StoreService, 'getDetails').and.callThrough()
+      spyOn(StoreService, 'getBranches').and.callThrough()
 
 
       $scope = $rootScope
@@ -34,7 +34,7 @@ describe 'StoreDetails directive', ->
       expect(isolatedScope.edit).toBeDefined()
 
     it "should have a store object defined", ->
-      expect(isolatedScope.store).toBeDefined()
+      expect(isolatedScope.branches).toBeDefined()
 
 
   describe "edit functionality", ->

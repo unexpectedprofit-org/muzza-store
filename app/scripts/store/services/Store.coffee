@@ -33,16 +33,19 @@ angular.module('MuzzaStore.store').service 'StoreService', (StoreFirebaseAdapter
 
     storeHoursArray
 
-  constructStoreDetails = (storeElement) ->
-    storeElement.hours = processStoreHours storeElement.displayOpenHours
-    storeElement
+  constructStoreDetails = (storeBranches) ->
+    _.forEach storeBranches, (branch) ->
+      branch.hours = processStoreHours branch.displayOpenHours
+
+    storeBranches
 
 
 
-  class RetrieveDetailsResponse
+  class RetrieveBranchesResponse
     constructor: (response) ->
       if response.success
         @data = constructStoreDetails response.data
+
       else
         console.log "ERROR - RetrieveDetailsResponse: " + response.error
         @error = response.error
@@ -70,15 +73,15 @@ angular.module('MuzzaStore.store').service 'StoreService', (StoreFirebaseAdapter
   class RetrieveProductsResponse
     constructor: (response) ->
       if response.success
-        @data = response.data.category
+        @data = response.data
       else
         console.log "ERROR - RetrieveProductsResponse: " + response.error
         @error = response.error
 
 
 
-  retrieveDetails = () ->
-    new RetrieveDetailsResponse StoreFirebaseAdapter.getStore()
+  retrieveBranches = () ->
+    new RetrieveBranchesResponse StoreFirebaseAdapter.getBranches()
 
   updateStore = (_store) ->
     new UpdateStoreResponse StoreFirebaseAdapter.updateStore _store
@@ -91,7 +94,7 @@ angular.module('MuzzaStore.store').service 'StoreService', (StoreFirebaseAdapter
 
   saveProduct = (product) ->
 
-    store = StoreFirebaseAdapter.getStore()
+    store = StoreFirebaseAdapter.getProducts().data
 
     categoryToUpdate = _.find store.category, (catElem) ->
       catElem.id is parseInt product.categoryId
@@ -127,11 +130,13 @@ angular.module('MuzzaStore.store').service 'StoreService', (StoreFirebaseAdapter
 
     response
 
+  # get an object of categories - {id: description}
+  # used for populating select box while adding new product
   retrieveProductCategories = () ->
-    store = StoreFirebaseAdapter.getStore()
+    store = StoreFirebaseAdapter.getProducts()
 
     if store.success
-      resultsArray = _.map store.data.category, (category) ->
+      resultsArray = _.map store.data, (category) ->
         {id:category.id,description:category.description}
 
       resultsObject = {}
@@ -145,11 +150,11 @@ angular.module('MuzzaStore.store').service 'StoreService', (StoreFirebaseAdapter
 
 
   retrieveProducts = () ->
-    new RetrieveProductsResponse StoreFirebaseAdapter.getStore()
+    new RetrieveProductsResponse StoreFirebaseAdapter.getProducts()
 
 
 
-  getDetails: retrieveDetails
+  getBranches: retrieveBranches
   updateStore: updateStore
 
 
