@@ -48,25 +48,25 @@ angular.module("MuzzaStore").config ($stateProvider, $urlRouterProvider) ->
         templateUrl: "../app/scripts/product/templates/menu-products.html"
         controller: "ProductListCtrl"
 
-  .state "app.store-details",
+  .state "app.branches",
     url: "/branches"
     views:
       navContent:
-        templateUrl: "../app/scripts/store/templates/store-details-view.html"
+        templateUrl: "../app/scripts/store/templates/branches-list.html"
 
-  .state "app.store-edit",
-    url: "/store/edit"
+  .state "app.branch-edit",
+    url: "/branches/edit/:id"
     views:
       navContent:
-        templateUrl: "../app/scripts/store/templates/store-edit.html"
-        controller: "StoreEditCtrl"
+        templateUrl: "../app/scripts/store/templates/branch-edit.html"
+        controller: "BranchEditCtrl"
 
-  .state "app.store-edit-hours",
-    url: "/store/editHours"
+  .state "app.branch-edit-hours",
+    url: "/branches/editHours/:id"
     views:
       navContent:
-        templateUrl: "../app/scripts/store/templates/store-edit-hours.html"
-        controller: "StoreEditCtrl"
+        templateUrl: "../app/scripts/store/templates/branch-edit-hours.html"
+        controller: "BranchEditCtrl"
 
   .state "app.orders-list",
     url: "/orders/list"

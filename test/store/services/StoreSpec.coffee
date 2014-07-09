@@ -6,7 +6,7 @@ describe 'Store Service', ->
       $provide.value 'StoreFirebaseAdapter',
         getBranches: () -> {success:true,data:{}}
         getProducts: () -> {success:true,data:{}}
-        updateStore: () -> {success:true,data:{}}
+        updateBranch: () -> {success:true,data:{}}
         addProduct: () -> {success:true,data:{}}
         addCategory: () -> {success:true,data:{}}
       null
@@ -25,7 +25,7 @@ describe 'Store Service', ->
       expect(StoreService.getProductCategories).toBeDefined()
       expect(StoreService.addProduct).toBeDefined()
       expect(StoreService.addProductCategory).toBeDefined()
-      expect(StoreService.updateStore).toBeDefined()
+      expect(StoreService.updateBranch).toBeDefined()
       expect(StoreService.getBranches).toBeDefined()
 
 
@@ -94,13 +94,13 @@ describe 'Store Service', ->
       expect(response.error).toBeDefined()
 
 
-  describe "updateStore functionality", ->
+  describe "updateBranch functionality", ->
 
     it "should call adapter", ->
-      updateStoreSpy = spyOn(StoreFirebaseAdapter, 'updateStore').and.callThrough()
-      StoreService.updateStore()
+      updateBranchSpy = spyOn(StoreFirebaseAdapter, 'updateBranch').and.callThrough()
+      StoreService.updateBranch()
 
-      expect(updateStoreSpy).toHaveBeenCalled()
+      expect(updateBranchSpy).toHaveBeenCalled()
 
 
   describe "addProductCategory functionality", ->

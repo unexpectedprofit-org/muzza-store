@@ -51,7 +51,7 @@ angular.module('MuzzaStore.store').service 'StoreService', (StoreFirebaseAdapter
         @error = response.error
 
 
-  class UpdateStoreResponse
+  class UpdateBranchResponse
     constructor: (response) ->
       if response.success
         @data = response.data
@@ -83,8 +83,8 @@ angular.module('MuzzaStore.store').service 'StoreService', (StoreFirebaseAdapter
   retrieveBranches = () ->
     new RetrieveBranchesResponse StoreFirebaseAdapter.getBranches()
 
-  updateStore = (_store) ->
-    new UpdateStoreResponse StoreFirebaseAdapter.updateStore _store
+  updateBranch = (_store) ->
+    new UpdateBranchResponse StoreFirebaseAdapter.updateBranch _store
 
   saveProductCategory = (categoryDesc) ->
     new SaveProductCategoryResponse StoreFirebaseAdapter.addCategory categoryDesc.toUpperCase()
@@ -155,7 +155,7 @@ angular.module('MuzzaStore.store').service 'StoreService', (StoreFirebaseAdapter
 
 
   getBranches: retrieveBranches
-  updateStore: updateStore
+  updateBranch: updateBranch
 
 
   #####################

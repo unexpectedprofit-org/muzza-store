@@ -8,10 +8,10 @@
 
     <div class="list">
 
-      <form name="storeEditForm" novalidate>
+      <form name="branchEditForm" novalidate>
 
         <div class="list"
-             data-ng-repeat="currentDayHours in store.hours">
+             data-ng-repeat="currentDayHours in branch.hours">
 
           {{ currentDayHours.day }}:
           <br />
@@ -77,8 +77,8 @@
         </div>
 
         <button class="button button-full button-positive"
-                data-ng-disabled="storeEditForm.$invalid"
-                data-ng-click="save(store,days)">
+                data-ng-disabled="branchEditForm.$invalid"
+                data-ng-click="save(branch,days)">
           Guardar
         </button>
 

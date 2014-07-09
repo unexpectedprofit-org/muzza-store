@@ -1,4 +1,4 @@
-describe 'StoreDetails directive', ->
+describe 'BranchDetails directive', ->
 
   beforeEach ->
     module 'MuzzaStore.store'
@@ -23,7 +23,7 @@ describe 'StoreDetails directive', ->
 
 
       $scope = $rootScope
-      element = angular.element('<store-details></store-details>')
+      element = angular.element('<branch-details></branch-details>')
       $compile(element)($rootScope)
       $scope.$digest()
       isolatedScope = element.isolateScope()
@@ -41,12 +41,12 @@ describe 'StoreDetails directive', ->
 
     it "should call go on state", ->
       goSpy = spyOn($state, 'go')
-      isolatedScope.edit()
-      expect(goSpy).toHaveBeenCalled()
+      isolatedScope.edit 15
+      expect(goSpy).toHaveBeenCalledWith 'app.branch-edit', {id:15}
 
     it "should call go on state", ->
       goHoursSpy = spyOn($state, 'go')
-      isolatedScope.edit('hours')
-      expect(goHoursSpy).toHaveBeenCalled()
+      isolatedScope.edit 99, 'hours'
+      expect(goHoursSpy).toHaveBeenCalledWith 'app.branch-edit-hours', {id:99}
 
 

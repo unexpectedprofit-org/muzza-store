@@ -6,6 +6,7 @@ angular.module('MuzzaStore.store').service 'StoreFirebaseAdapter', () ->
 
     branches: [
       id:1
+      name_real: "Juancho S.R.L."
       name_fantasy: "Juancho Caballito"
       address:
         street: "Av. Rivadavia"
@@ -28,6 +29,7 @@ angular.module('MuzzaStore.store').service 'StoreFirebaseAdapter', () ->
         6: [ ['18:30', '03:00'] ]
     ,
       id:2
+      name_real: "Juancho11 S.A."
       name_fantasy: "Juancho Boedo II"
       address:
         street: "Av. Juan B. ALberdi"
@@ -117,6 +119,11 @@ angular.module('MuzzaStore.store').service 'StoreFirebaseAdapter', () ->
       data: product.description
     }
 
+  updateBranch = () ->
+    #do the update....
+    {
+      success:true
+    }
 
 
   getProducts: retrieveProductsByCategory
@@ -124,3 +131,5 @@ angular.module('MuzzaStore.store').service 'StoreFirebaseAdapter', () ->
 
   addCategory: saveCategory
   addProduct: saveProduct
+
+  updateBranch: updateBranch
