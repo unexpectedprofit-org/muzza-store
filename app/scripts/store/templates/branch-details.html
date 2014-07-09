@@ -1,26 +1,26 @@
-<div>{{ store.id }}</div>
-<div>{{ store.name }}</div>
-        
+
 <div data-ng-repeat="branch in branches">
 
-  Nombre:<div>{{ branch.name_fantasy }}</div>
+  <div>ID: {{ branch.id }}</div>
+  <div>Nombre real: {{ branch.name_real }}</div>
+  <div>Nombre Fantasia: {{ branch.name_fantasy }}</div>
+
+  <br/>
 
   Address:
   <div>{{ branch.address.street }} {{ branch.address.door }}</div>
   <div>{{ branch.address.area }} - ({{ branch.address.hood }}) - {{ branch.address.state }}</div>
 
-  </hr>
+  <br/>
   Telefonos:
   <div>{{ branch.phone.main }}</div>
   <div>{{ branch.phone.other }}</div>
   <div>{{ branch.phone.cel }}</div>
 
-  </hr>
+  <br/>
   Horarios:
 
-  <div data-ng-repeat="currentDayHours in branch.hours"
-       class="list">
-
+  <div data-ng-repeat="currentDayHours in branch.hours">
     {{ currentDayHours.day }}:
     <span data-ng-if="currentDayHours.hours.length == 0">Cerrado</span>
 
@@ -39,7 +39,7 @@
     Actualizar Horarios
   </button>
 
-  </hr>
-  </hr>
+  <br/>
+  <br/>
 
 </div>
