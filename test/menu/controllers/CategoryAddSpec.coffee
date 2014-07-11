@@ -40,7 +40,16 @@ describe "Category Add Controller", ->
       createController {}
       scope.addCategory "my_category"
       expect(addCategorySpy).toHaveBeenCalledWith "my_category"
-      expect(scope.response).toBeDefined()
+
+    it "should set a variable indicating form has been submitted", ->
+      createController {}
+      scope.addCategory "my_category"
+      expect(scope.formSubmitted).toBeTruthy()
+
+    it "should set a variable with the category name", ->
+      createController {}
+      scope.addCategory "my_category"
+      expect(scope.response_msg).toEqual "my_category"
 
     it "should handle success response", ->
       pristineSpy = spyOn(scope.categoryAddForm, '$setPristine')
@@ -48,7 +57,6 @@ describe "Category Add Controller", ->
       createController {}
       scope.addCategory "my_category"
 
-      expect(scope.response.msg).toEqual( "La categoria '" + "my_category" + "' ha sido creada con exito!" )
       expect(scope.category).toEqual ''
       expect(pristineSpy).toHaveBeenCalled()
 
@@ -57,5 +65,4 @@ describe "Category Add Controller", ->
       createController {}
       scope.addCategory "my_category"
 
-      expect(scope.response.msg).toEqual( "Se ha producido un error al intentar crear la categoria '" + "my_category" + "'" )
       expect(scope.category).not.toEqual ''

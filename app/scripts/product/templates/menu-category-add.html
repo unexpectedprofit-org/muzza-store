@@ -11,12 +11,21 @@
 the variables are not found at $scope.xxx.
 Instead they are at $scope.$$childTail.xxx -->
 
-    <div data-ng-show="response"
-         data-ng-class="response.error ? 'msg-error' : 'msg-success'">
+    <div data-ng-show="response.error"
+         class="msg-error">
       Mensajes::::::::
       <br/>
-      {{ response.msg }}
+      Se ha producido un error al intentar crear la categoria '{{response_msg}}'
     </div>
+    <div data-ng-show="formSubmitted && !response.error"
+         class="msg-success">
+      Mensajes::::::::
+      <br/>
+      La categoria '{{response_msg}}' ha sido creada con exito!
+    </div>
+
+
+
     <form name="categoryAddForm" novalidate>
 
       <div class="list list-inset">
