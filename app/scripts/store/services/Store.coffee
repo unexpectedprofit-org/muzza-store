@@ -79,6 +79,15 @@ angular.module('MuzzaStore.store').service 'StoreService', (StoreFirebaseAdapter
         @error = response.error
 
 
+  class SaveProductResponse
+    constructor: (response) ->
+      if response.success
+        @data = response.data
+      else
+        console.log "ERROR - SaveProductResponse: " + response.error
+        @error = response.error
+
+
 
   retrieveBranches = () ->
     new RetrieveBranchesResponse StoreFirebaseAdapter.getBranches()
@@ -89,46 +98,10 @@ angular.module('MuzzaStore.store').service 'StoreService', (StoreFirebaseAdapter
   saveProductCategory = (categoryDesc) ->
     new SaveProductCategoryResponse StoreFirebaseAdapter.addCategory categoryDesc.toUpperCase()
 
-
-
-
   saveProduct = (product) ->
+    new SaveProductResponse StoreFirebaseAdapter.addProduct product
 
-    store = StoreFirebaseAdapter.getProducts().data
 
-    categoryToUpdate = _.find store.category, (catElem) ->
-      catElem.id is parseInt product.categoryId
-
-    if categoryToUpdate isnt undefined
-
-      found = false
-      productFound = undefined
-
-      _.each store['category'], (category) ->
-
-        if !found
-          productFound = _.find category.products, (prod) ->
-            prod.description.toUpperCase() is product.description.toUpperCase()
-
-          if productFound isnt undefined
-            found = true
-
-      if productFound is undefined
-        StoreFirebaseAdapter.addProduct()
-
-        response =
-          status: 'ok'
-      else
-        response =
-          status: "NOK"
-          msg: "PRODUCT_ALREADY_REGISTERED"
-
-    else
-      response =
-        status: "NOK"
-        msg: "no category found"
-
-    response
 
   # get an object of categories - {id: description}
   # used for populating select box while adding new product

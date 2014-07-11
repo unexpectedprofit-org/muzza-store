@@ -108,16 +108,40 @@ angular.module('MuzzaStore.store').service 'StoreFirebaseAdapter', () ->
 
 
   saveProduct = (product) ->
-    categoryToUpdate = _.find company.category, (elem) ->
-      elem.id is product.categoryId
 
-    product.id = categoryToUpdate.products.length + 1
-    categoryToUpdate.products.push product
+    categories = retrieveProductsByCategory().data
 
-    {
-      success: true
-      data: product.description
-    }
+    categoryToUpdate = _.find categories, (categoryElem) ->
+      categoryElem.id is parseInt product.categoryId
+
+    if categoryToUpdate isnt undefined
+
+      found = false
+      productFound = undefined
+
+      _.each categories, (category) ->
+
+        if !found
+          productFound = _.find category.products, (prod) ->
+            prod.description.toUpperCase() is product.description.toUpperCase()
+
+          if productFound isnt undefined
+            found = true
+
+      if productFound is undefined
+        product.id = categoryToUpdate.products.length + 1
+        categoryToUpdate.products.push product
+
+        response = {success:true,data:product.description}
+
+      else
+        response = {success:false,error:"PRODUCT_ALREADY_REGISTERED"}
+
+    else
+      response = {success:false,error:"CATEGORY_NOT_FOUND"}
+
+    response
+
 
   updateBranch = () ->
     #do the update....

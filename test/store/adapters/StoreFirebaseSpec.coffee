@@ -12,85 +12,66 @@ describe 'Store Firebase Adapter', ->
 
   describe "addCategory functionality", ->
 
-    it "should update the store object with the new category - first category", ->
-
-      storedetails = StoreFirebaseAdapter.getProducts().data
-      storedetails.category = undefined
-
-      response = StoreFirebaseAdapter.addCategory "my_category"
-
-      expect(response.success).toBeTruthy()
-      expect(response.data).toBe "my_category"
-
-
-    it "should update the store object with the new category - some previous category stored", ->
-
-      storedetails = StoreFirebaseAdapter.getProducts().data
-      storedetails['category'] = [
-        id:1
-        description:"First Category"
-      ]
+    it "should update the store object with the new category", ->
 
       response = StoreFirebaseAdapter.addCategory "my_other_category"
-
-      storedetails = StoreFirebaseAdapter.getProducts()
-
       expect(response.success).toBeTruthy()
       expect(response.data).toBe "my_other_category"
 
+      expect(StoreFirebaseAdapter.getProducts().data.length).toBe 4
+
+
     it "should NOT store the category if already stored", ->
-      response = StoreFirebaseAdapter.addCategory "bebidas"
+      #first attempt - store non existing category
+      response = StoreFirebaseAdapter.addCategory "milanesas"
+      expect(response.success).toBeTruthy()
+      expect(response.data).toEqual "milanesas"
 
+      prodByCategories = StoreFirebaseAdapter.getProducts().data
+      expect(prodByCategories[prodByCategories.length - 1].description).toBe "milanesas"
+
+      #second attempt - store existing category
+      response = StoreFirebaseAdapter.addCategory "MILANESAS"
       expect(response.success).toBeFalsy()
-      expect(response.error).toBe 'CATEGORY_ALREADY_REGISTERED'
-
-      response = StoreFirebaseAdapter.addCategory "BEBIDAS"
-
-      expect(response.success).toBeFalsy()
-      expect(response.error).toBe 'CATEGORY_ALREADY_REGISTERED'
-
-      response = StoreFirebaseAdapter.addCategory "BeBIdAs"
-
-      expect(response.success).toBeFalsy()
-      expect(response.error).toBe 'CATEGORY_ALREADY_REGISTERED'
+      expect(response.error).toEqual "CATEGORY_ALREADY_REGISTERED"
 
 
   describe "addProduct functionality", ->
 
-    it "should update the store object with the new product - first product", ->
-      storedetails = StoreFirebaseAdapter.getProducts().data
-      storedetails.categories = [
-        id:1
-        description:"First Category"
-        products: []
-      ]
-
+    it "should update the store object with the new product", ->
       product =
         description:"my_product"
-        categoryId: storedetails.categories[0].id
+        categoryId: 1
 
       response = StoreFirebaseAdapter.addProduct product
-
       expect(response.success).toBeTruthy()
       expect(response.data).toEqual product.description
 
+      expect(StoreFirebaseAdapter.getProducts().data[0].products.length).toBe 1
 
-    it "should update the store object with the new product - some previous products stored", ->
-      storedetails = StoreFirebaseAdapter.getProducts().data
-      storedetails['category'] = [
-        id:1
-        description:"First Category"
-        products: [{id:1,description:"holahola"}]
-      ]
 
+    it "should NOT store the product if already stored", ->
       product =
         description:"my_new_product"
-        categoryId: storedetails['category'][0].id
+        categoryId: 2
 
+      #first attempt - store non existing product
       response = StoreFirebaseAdapter.addProduct product
-
       expect(response.success).toBeTruthy()
       expect(response.data).toEqual product.description
+
+      prodByCategories = StoreFirebaseAdapter.getProducts().data
+      expect(prodByCategories[1].products.length).toBe 1
+
+      #second attempt - store existing product
+      response = StoreFirebaseAdapter.addProduct product
+      expect(response.success).toBeFalsy()
+      expect(response.error).toEqual "PRODUCT_ALREADY_REGISTERED"
+
+      prodByCategories = StoreFirebaseAdapter.getProducts().data
+      expect(prodByCategories[1].products.length).toBe 1
+
+
 
 
   describe "getBranches functionality", ->

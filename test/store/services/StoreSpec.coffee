@@ -137,42 +137,32 @@ describe 'Store Service', ->
   describe "addProduct functionality", ->
 
     it "should call the adapter", ->
-      getStoreSpy = spyOn(StoreFirebaseAdapter, 'getProducts').and.callThrough()
-      StoreService.addProduct()
+      getStoreSpy = spyOn(StoreFirebaseAdapter, 'addProduct').and.callThrough()
+      StoreService.addProduct {}
 
       expect(getStoreSpy).toHaveBeenCalled()
 
+    it "should handle success response", ->
+      fakeResponse =
+        success: true
+        data: {some:"thing"}
 
-    it "should NOT call the adapter to add product if no category found", ->
-      fakeStore =
-        category: [
-          id:1
-          description:"First Category"
-          products: [{id:1,description:"holahola"}]
-        ]
-
-      spyOn(StoreFirebaseAdapter, 'getProducts').and.callFake( () -> {success:true,data:fakeStore} )
-      addProductSpy = spyOn(StoreFirebaseAdapter, 'addProduct').and.callThrough()
-
-      product =
-        description:"my_new_product"
-        categoryId: 9
-
-      StoreService.addProduct product
-
-      expect(addProductSpy).not.toHaveBeenCalled()
+      spyOn(StoreFirebaseAdapter, 'addProduct').and.callFake( () -> fakeResponse )
+      response = StoreService.addProduct {}
+      expect(response.data).toBeDefined()
+      expect(response.error).toBeUndefined()
 
 
-    it "should NOT call the adapter if already stored", ->
-      product =
-        description: "my_product"
-        categoryId: 1
+    it "should handle error reponse", ->
+      fakeErrorResponse =
+        success: false
+        error: "jojojo"
 
-      addProductSpy = spyOn(StoreFirebaseAdapter, 'addProduct').and.callThrough()
+      spyOn(StoreFirebaseAdapter, 'addProduct').and.callFake( () -> fakeErrorResponse )
+      response = StoreService.addProduct {}
+      expect(response.data).toBeUndefined()
+      expect(response.error).toBeDefined()
 
-      StoreService.addProduct product
-
-      expect(addProductSpy).not.toHaveBeenCalled()
 
 
   describe "getProductCategories functionality", ->
