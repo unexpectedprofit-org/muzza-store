@@ -96,7 +96,7 @@ angular.module('MuzzaStore.store').service 'StoreService', (StoreFirebaseAdapter
     new UpdateBranchResponse StoreFirebaseAdapter.updateBranch _store
 
   saveProductCategory = (categoryDesc) ->
-    new SaveProductCategoryResponse StoreFirebaseAdapter.addCategory categoryDesc.toUpperCase()
+    new SaveProductCategoryResponse StoreFirebaseAdapter.addCategory categoryDesc
 
   saveProduct = (product) ->
     new SaveProductResponse StoreFirebaseAdapter.addProduct product
