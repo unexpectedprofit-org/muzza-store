@@ -11,13 +11,13 @@ angular.module('MuzzaStore.product').controller 'ProductAddCtrl', ($scope, Store
 
   $scope.addProduct = (product) ->
 
+    $scope.formSubmitted = true
+
     $scope.response = StoreService.addProduct product
 
     if $scope.response.error is undefined
-      $scope.response.msg = "El producto '" + product.description + "' ha sido creado con exito!"
       $scope.product =
         options: []
       $scope.productAddForm.$setPristine()
 
-    else
-      $scope.response.msg = "Se ha producido un error al intentar crear el producto '" + product.description + "'"
+    $scope.response_msg = product.description

@@ -50,6 +50,17 @@ describe "Product Add Controller", ->
       scope.addProduct myProduct
       expect(addProductSpy).toHaveBeenCalledWith myProduct
 
+    it "should set a variable indicating form has been submitted", ->
+      createController {}
+
+      scope.addProduct {}
+      expect(scope.formSubmitted).toBeTruthy()
+
+    it "should set a variable with the product name", ->
+      createController {}
+      scope.addProduct {description:"my_product"}
+      expect(scope.response_msg).toEqual "my_product"
+
     it "should handle success response", ->
       pristineSpy = spyOn(scope.productAddForm, '$setPristine').and.callThrough()
 
@@ -59,7 +70,6 @@ describe "Product Add Controller", ->
         description: "my_product"
       scope.addProduct scope.product
 
-      expect(scope.response.msg).toEqual( "El producto '" + "my_product" + "' ha sido creado con exito!" )
       expect(scope.product).toEqual {options:[]}
       expect(pristineSpy).toHaveBeenCalled()
 
@@ -71,7 +81,6 @@ describe "Product Add Controller", ->
         description: "my_product"
       scope.addProduct scope.product
 
-      expect(scope.response.msg).toEqual( "Se ha producido un error al intentar crear el producto '" + "my_product" + "'" )
       expect(scope.product).not.toEqual {options:[]}
 
   describe "getProductCategories functionality", ->
